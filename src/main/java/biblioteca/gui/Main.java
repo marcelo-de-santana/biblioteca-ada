@@ -4,8 +4,8 @@ import biblioteca.entity.*;
 
 import java.util.Scanner;
 
-import static biblioteca.entity.Biblioteca.*;
-import static biblioteca.gui.ListagemGUI.tiposDeListagem;
+import static biblioteca.gui.ApplicationConfigUI.tiposDeListagem;
+import static biblioteca.service.BibliotecaService.*;
 
 public class Main {
     private static int opcaoSelecionada = 10;

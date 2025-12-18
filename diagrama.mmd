@@ -21,6 +21,7 @@ classDiagram
         +int anoPublicacao
         +Categoria categoria
         +Editora editora
+        +Boolean emprestado
     }
 
     class Pessoa {
@@ -30,12 +31,12 @@ classDiagram
 
     class Autor {
         +String nacionalidade
-        +LocalDate dataNascimento
     }
 
     class Cliente {
         +String email
         +Integer telefone
+        +Integer cpf
     }
 
     class Emprestimo {

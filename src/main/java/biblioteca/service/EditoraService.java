@@ -1,6 +1,6 @@
 package biblioteca.service;
 
-import biblioteca.entity.Autor;
+import biblioteca.entity.Editora;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,7 +9,9 @@ import java.util.List;
 
 @Data
 @Builder
-public class AutorService {
+public class EditoraService {
+    List<Editora> listarEditora() {
+        return new ArrayList<>();
+    }
 
-    List<Autor> listarAutor() {return new ArrayList<>();}
 }

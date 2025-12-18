@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GenericRepository<T, ID> {
-    T save(T entity);
+    void save(T entity);
 
     Optional<T> listarPeloId(ID id);
 

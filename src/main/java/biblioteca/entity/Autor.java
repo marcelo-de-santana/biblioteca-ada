@@ -6,8 +6,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Data
+@Builder
 public class Autor extends Pessoa {
     private String nacionalidade;
-    private LocalDate dataNascimento;
 
 }

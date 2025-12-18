@@ -1,10 +1,20 @@
 package biblioteca.gui;
 
+import biblioteca.repository.AutorRepository;
+import biblioteca.repository.BibliotecaRepository;
+import biblioteca.repository.ClienteRepository;
+import biblioteca.repository.EditoraRepository;
+import biblioteca.service.BibliotecaService;
+
 import java.util.Scanner;
 
-import static biblioteca.gui.Main.mostraMensagemDeOpcaoInvalida;
+public class ApplicationConfigUI {
 
-public class ListagemGUI {
+    private final BibliotecaService bibliotecaService;
+
+    public ApplicationConfigUI(){
+        bibliotecaService = new BibliotecaService(new BibliotecaRepository(), new AutorRepository(), new ClienteRepository(), new EditoraRepository());
+    }
 
     public static void tiposDeListagem(Scanner promptInput) {
         System.out.println("""

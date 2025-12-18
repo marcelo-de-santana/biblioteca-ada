@@ -17,4 +17,5 @@ public class Livro {
     private int anoPublicacao;
     private Categoria categoria;
     private Editora editora;
+    private Boolean emprestado;
 }
