@@ -1,19 +1,22 @@
 package biblioteca.entity;
 
-import biblioteca.service.LivroService;
+import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+@Data
 public class Biblioteca {
     private static Biblioteca INSTANCIA = new Biblioteca();
 
     private final UUID id = UUID.randomUUID();
     private final String nome = "Biblioteca Nacional";
     private final LocalDate anoCriacao = LocalDate.of(2025, 01, 01);
-
-    private LivroService livroService = new LivroService();
+    private final List<Livro> livros = new ArrayList<Livro>();
+    private final List<Cliente> clientes = new ArrayList<Cliente>();
 
     private Biblioteca() {
     }
@@ -22,35 +25,14 @@ public class Biblioteca {
         return INSTANCIA;
     }
 
-    /**
-     * TODO :
-     * Criar os Prompts para cada cadastro
-     */
-    public static void cadastrarAutor() {
+    public void adicionarLivro(Livro livro) {
+        livros.add(livro);
     }
 
-    public static void cadastrarCliente() {
+    public void removerLivro(Livro livro) {
+        if (!livros.removeIf(l -> id.equals(l.getIsbn())))
+            System.out.println("Livro não encontrado");
     }
 
-    public static void cadastrarEditora() {
-    }
-
-    public static void cadastrarEmprestimo() {
-    }
-
-    public void listarAutor() {}
-
-
-    public static void cadastrarLivro(Scanner promptInput) {
-        var livro = Livro.builder().isbn(UUID.randomUUID()).build();
-        System.out.println("Digite o título do livro:");
-        livro.setTitulo(promptInput.nextLine());
-        System.out.println("Digite a quantidade de páginas:");
-        livro.setNumeroDePaginas(promptInput.nextInt());
-        System.out.println("Digite o ano de publicação:");
-        livro.setAnoPublicacao(promptInput.nextInt());
-
-
-    }
 
 }
