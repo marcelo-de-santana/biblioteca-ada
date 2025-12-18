@@ -3,14 +3,12 @@ package biblioteca.service;
 import biblioteca.entity.*;
 import biblioteca.repository.*;
 
-import javax.sound.midi.Soundbank;
-import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.UUID;
 
 
 public class BibliotecaService {
-    private final Biblioteca biblioteca = Biblioteca.getInstancia();
+    private Biblioteca biblioteca = Biblioteca.getInstancia();
     private final Scanner input;
 
     public BibliotecaService(Scanner input) {
@@ -78,15 +76,31 @@ public class BibliotecaService {
 
     }
 
-    void adicionarLivros() {
+    public void adicionarLivros() {
     }
 
-    void removerLivros() {
+    public void removerLivros() {
     }
 
-    void listarLivros() {
+    public void listarLivros() {
+        biblioteca.listarLivros();
     }
 
     public void listarAutores() {
+        biblioteca.listarAutores();
     }
+
+    public void listarClientes() {
+        biblioteca.listarClientes();
+    }
+
+    public void listarEditoras() {
+        biblioteca.listarEditoras();
+    }
+
+    public void listarEmprestimos() {
+        biblioteca.listarEmprestimos();
+    }
+
+
 }

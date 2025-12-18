@@ -62,13 +62,12 @@ public class ApplicationConfigUI {
 
         var opcaoSelecionada = promptInput.nextInt();
 
-
         switch (opcaoSelecionada) {
             case 1 -> bibliotecaService.listarAutores();
-//            case 2 -> bibliotecaService.listarClientes();
-//            case 3 -> bibliotecaService.listarEditoras();
-//            case 4 -> bibliotecaService.listarEmprestimos();
-//            case 5 -> bibliotecaService.listarLivros();
+            case 2 -> bibliotecaService.listarClientes();
+            case 3 -> bibliotecaService.listarEditoras();
+            case 4 -> bibliotecaService.listarEmprestimos();
+            case 5 -> bibliotecaService.listarLivros();
             default -> mostraMensagemDeOpcaoInvalida();
         }
 

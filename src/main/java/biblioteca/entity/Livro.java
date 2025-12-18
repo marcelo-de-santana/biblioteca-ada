@@ -18,4 +18,5 @@ public class Livro {
     private Categoria categoria;
     private Editora editora;
     private Boolean emprestado;
+    private Autor autor;
 }

@@ -1,12 +1,10 @@
 package biblioteca.entity;
 
-import biblioteca.repository.AutorRepository;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 @Data
@@ -31,17 +29,37 @@ public class Biblioteca {
         return INSTANCIA;
     }
 
-    public void adicionarLivro(Livro livro) {
-//        livros..add(livro);
+
+    // LISTAGENS
+    public void listarEditoras() {
+        editoras.toString();
     }
 
-    public void removerLivro(Livro livro) {
-        if (!livros.removeIf(l -> id.equals(l.getIsbn())))
-            System.out.println("Livro não encontrado");
+    public void listarEmprestimos() {
+        emprestimos.toString();
     }
 
+    public void listarLivros() {
+        livros.toString();
+    }
 
-    public void cadastrarCliente(Cliente cliente) {
+    public void listarClientes() {
+        clientes.toString();
+    }
+
+    public void listarAutores() {
+        autores.toString();
+    }
+
+    // CADASTROS
+    public void cadastrarCliente(Cliente novoCliente) {
+        var clienteJaCadastrado = clientes.stream().anyMatch(clienteCadastrado ->
+                clienteCadastrado.getCpf().equals(novoCliente.getCpf()));
+
+        if (clienteJaCadastrado)
+            System.out.println("Cliente já cadastrado");
+        else
+            clientes.add(novoCliente);
     }
 
     public void cadastrarAutor(Autor autor) {
@@ -50,4 +68,10 @@ public class Biblioteca {
     public void cadastrarEditora(Editora editora) {
     }
 
+    public void cadastrarEmprestimo(Emprestimo emprestimo) {
+        emprestimos.add(emprestimo);
+    }
+
 }
+
+
