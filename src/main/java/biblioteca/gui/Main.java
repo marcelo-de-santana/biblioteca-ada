@@ -1,14 +1,14 @@
 package biblioteca.gui;
 
 import biblioteca.entity.*;
-import biblioteca.service.JsonLoader;
 
 import java.util.Scanner;
 
 import static biblioteca.entity.Biblioteca.*;
+import static biblioteca.gui.ListagemGUI.tiposDeListagem;
 
 public class Main {
-    private static int opcaoSelecionada = 0;
+    private static int opcaoSelecionada = 10;
     private static final Scanner promptInput = new Scanner(System.in);
     private static final Biblioteca biblioteca = Biblioteca.getInstancia();
 
@@ -25,22 +25,21 @@ public class Main {
     }
 
     static void mostrarMenu() {
-        var texto = """
+        System.out.print("""
                 ==== MENU ====
                 1 - Ver lista
                 2 - Cadastrar
                 3 - Editar
                 4 - Excluir
-                0 - Sair                
+                0 - Sair
                 
-                Selecione uma opção: """;
-
-        System.out.print(texto);
+                Selecione uma opção:""");
     }
 
     static void mostraOpcaoDoMenu(int opcaoSelecionada) {
         switch (opcaoSelecionada) {
             case 0:
+                tiposDeListagem(promptInput);
                 break;
             case 1:
                 break;
@@ -56,6 +55,7 @@ public class Main {
         }
     }
 
+
     static void tiposDeCadastro() {
         System.out.println("""
                 O que deseja cadastrar?
@@ -63,16 +63,16 @@ public class Main {
                 2 - Cliente
                 3 - Editora
                 4 - Empréstimo
-                5 - Livro""");
+                5 - Livro
+                0 - Retornar ao Menu Anterior""");
         var opcaoSelecionada = promptInput.nextInt();
-
 
         switch (opcaoSelecionada) {
             case 1 -> cadastrarAutor();
             case 2 -> cadastrarCliente();
             case 3 -> cadastrarEditora();
             case 4 -> cadastrarEmprestimo();
-            case 5 -> cadastrarLivro();
+            case 5 -> cadastrarLivro(promptInput);
             default -> mostraMensagemDeOpcaoInvalida();
         }
 
