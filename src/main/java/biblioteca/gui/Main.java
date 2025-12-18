@@ -67,14 +67,14 @@ public class Main {
                 0 - Retornar ao Menu Anterior""");
         var opcaoSelecionada = promptInput.nextInt();
 
-        switch (opcaoSelecionada) {
-            case 1 -> cadastrarAutor();
-            case 2 -> cadastrarCliente();
-            case 3 -> cadastrarEditora();
-            case 4 -> cadastrarEmprestimo();
-            case 5 -> cadastrarLivro(promptInput);
-            default -> mostraMensagemDeOpcaoInvalida();
-        }
+//        switch (opcaoSelecionada) {
+//            case 1 -> cadastrarAutor();
+//            case 2 -> cadastrarCliente();
+//            case 3 -> cadastrarEditora();
+//            case 4 -> cadastrarEmprestimo();
+//            case 5 -> cadastrarLivro(promptInput);
+//            default -> mostraMensagemDeOpcaoInvalida();
+//        }
 
 
     }

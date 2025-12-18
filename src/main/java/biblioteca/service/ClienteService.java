@@ -1,7 +1,6 @@
 package biblioteca.service;
 
 import biblioteca.entity.Cliente;
-import biblioteca.entity.Livro;
 import lombok.Builder;
 import lombok.Data;
 

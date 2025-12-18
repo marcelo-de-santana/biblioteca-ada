@@ -1,12 +1,7 @@
 package biblioteca.service;
 
-import biblioteca.entity.Autor;
-import biblioteca.entity.Cliente;
-import biblioteca.entity.Livro;
-import biblioteca.repository.AutorRepository;
-import biblioteca.repository.BibliotecaRepository;
-import biblioteca.repository.ClienteRepository;
-import biblioteca.repository.EditoraRepository;
+import biblioteca.entity.*;
+import biblioteca.repository.*;
 
 import javax.sound.midi.Soundbank;
 import java.time.LocalDate;
@@ -25,12 +20,15 @@ public class BibliotecaService {
     private final ClienteService cliente = new ClienteService();
     private final EditoraRepository editoraRepository;
     private final EditoraService editora = new EditoraService();
+    private final EmprestimoRepository emprestimoRepository;
+    private final EmprestimoService emprestimo = new EmprestimoService();
 
-    public BibliotecaService(BibliotecaRepository bibliotecaRepository, AutorRepository autorRepository, ClienteRepository clienteRepository, EditoraRepository editoraRepository) {
+    public BibliotecaService(BibliotecaRepository bibliotecaRepository, AutorRepository autorRepository, ClienteRepository clienteRepository, EditoraRepository editoraRepository, EmprestimoRepository emprestimoRepository) {
         this.bibliotecaRepository = bibliotecaRepository;
         this.autorRepository = autorRepository;
         this.clienteRepository = clienteRepository;
         this.editoraRepository = editoraRepository;
+        this.emprestimoRepository = emprestimoRepository;
     }
 
 
@@ -58,18 +56,25 @@ public class BibliotecaService {
         clienteRepository.save(cliente);
     }
 
-    public void cadastrarEditora() {
+    public void cadastrarEditora(Editora editora) {
         editora.setId(UUID.randomUUID());
-        System.out.println("Informe o nome do editora: ");
+        System.out.println("Informe o nome da editora: ");
         editora.setNome(input.nextLine());
-        System.out.println("Informe o email do editora: ");
+        System.out.println("Informe o cnpj da editora: ");
+        editora.setCnpj(input.nextLine());
+        System.out.println("Informe o endereço da editora: ");
+        editora.setEndereco(input.nextLine());
+        System.out.println("Informe o telefone da editora");
+        editora.setTelefone(input.nextLine());
+        System.out.println("Informe o email da editora");
         editora.setEmail(input.nextLine());
-        System.out.println("Informe o cpf do editora: ");
-        editora.setCpf(input.nextInt());
         editoraRepository.save(editora);
     }
 
-    public static void cadastrarEmprestimo() {
+    public static void cadastrarEmprestimo(Emprestimo emprestimo) {
+        emprestimo.setId(UUID.randomUUID());
+        System.out.println("Informe a data do empréstimo: ");
+
     }
 
     public void listarAutor() {}
