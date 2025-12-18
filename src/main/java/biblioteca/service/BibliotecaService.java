@@ -9,28 +9,13 @@ import java.util.Scanner;
 import java.util.UUID;
 
 
-
 public class BibliotecaService {
+    private final Biblioteca biblioteca = Biblioteca.getInstancia();
+    private final Scanner input;
 
-    private static final Scanner input = new Scanner(System.in);
-    private final BibliotecaRepository bibliotecaRepository;
-    private final AutorRepository autorRepository;
-    private final AutorService autor = new AutorService();
-    private final ClienteRepository clienteRepository;
-    private final ClienteService cliente = new ClienteService();
-    private final EditoraRepository editoraRepository;
-    private final EditoraService editora = new EditoraService();
-    private final EmprestimoRepository emprestimoRepository;
-    private final EmprestimoService emprestimo = new EmprestimoService();
-
-    public BibliotecaService(BibliotecaRepository bibliotecaRepository, AutorRepository autorRepository, ClienteRepository clienteRepository, EditoraRepository editoraRepository, EmprestimoRepository emprestimoRepository) {
-        this.bibliotecaRepository = bibliotecaRepository;
-        this.autorRepository = autorRepository;
-        this.clienteRepository = clienteRepository;
-        this.editoraRepository = editoraRepository;
-        this.emprestimoRepository = emprestimoRepository;
+    public BibliotecaService(Scanner input) {
+        this.input = new Scanner(System.in);
     }
-
 
     /**
      * TODO :
@@ -42,7 +27,7 @@ public class BibliotecaService {
         autor.setNome(input.nextLine());
         System.out.println("Informe a nacionalidade do autor: ");
         autor.setNacionalidade(input.nextLine());
-        autorRepository.save(autor);
+        biblioteca.cadastrarAutor(autor);
     }
 
     public void cadastrarCliente(Cliente cliente) {
@@ -53,7 +38,7 @@ public class BibliotecaService {
         cliente.setEmail(input.nextLine());
         System.out.println("Informe o cpf do cliente: ");
         cliente.setCpf(input.nextInt());
-        clienteRepository.save(cliente);
+        biblioteca.cadastrarCliente(cliente);
     }
 
     public void cadastrarEditora(Editora editora) {
@@ -68,7 +53,7 @@ public class BibliotecaService {
         editora.setTelefone(input.nextLine());
         System.out.println("Informe o email da editora");
         editora.setEmail(input.nextLine());
-        editoraRepository.save(editora);
+        biblioteca.cadastrarEditora(editora);
     }
 
     public static void cadastrarEmprestimo(Emprestimo emprestimo) {
@@ -77,7 +62,8 @@ public class BibliotecaService {
 
     }
 
-    public void listarAutor() {}
+    public void listarAutor() {
+    }
 
 
     public static void cadastrarLivro(Scanner promptInput) {
@@ -101,4 +87,6 @@ public class BibliotecaService {
     void listarLivros() {
     }
 
+    public void listarAutores() {
+    }
 }

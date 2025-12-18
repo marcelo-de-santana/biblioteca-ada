@@ -1,5 +1,6 @@
 package biblioteca.entity;
 
+import biblioteca.repository.AutorRepository;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -15,8 +16,13 @@ public class Biblioteca {
     private final UUID id = UUID.randomUUID();
     private final String nome = "Biblioteca Nacional";
     private final LocalDate anoCriacao = LocalDate.of(2025, 01, 01);
+
     private final List<Livro> livros = new ArrayList<Livro>();
+    private final List<Emprestimo> emprestimos = new ArrayList<>();
+    private final List<Editora> editoras = new ArrayList<>();
     private final List<Cliente> clientes = new ArrayList<Cliente>();
+    private final List<Autor> autores = new ArrayList<>();
+
 
     private Biblioteca() {
     }
@@ -26,7 +32,7 @@ public class Biblioteca {
     }
 
     public void adicionarLivro(Livro livro) {
-        livros.add(livro);
+//        livros..add(livro);
     }
 
     public void removerLivro(Livro livro) {
@@ -34,5 +40,14 @@ public class Biblioteca {
             System.out.println("Livro não encontrado");
     }
 
+
+    public void cadastrarCliente(Cliente cliente) {
+    }
+
+    public void cadastrarAutor(Autor autor) {
+    }
+
+    public void cadastrarEditora(Editora editora) {
+    }
 
 }

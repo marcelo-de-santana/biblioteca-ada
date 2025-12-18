@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class ApplicationConfigUI {
     private static final Scanner promptInput = new Scanner(System.in);
-    private static final BibliotecaService bibliotecaService = new BibliotecaService();
+    private static final BibliotecaService bibliotecaService = new BibliotecaService(promptInput);
 
     private static int opcaoMenuPrincipal = 10;
 
@@ -65,10 +65,10 @@ public class ApplicationConfigUI {
 
         switch (opcaoSelecionada) {
             case 1 -> bibliotecaService.listarAutores();
-            case 2 -> bibliotecaService.listarClientes();
-            case 3 -> bibliotecaService.listarEditoras();
-            case 4 -> bibliotecaService.listarEmprestimos();
-            case 5 -> bibliotecaService.listarLivros();
+//            case 2 -> bibliotecaService.listarClientes();
+//            case 3 -> bibliotecaService.listarEditoras();
+//            case 4 -> bibliotecaService.listarEmprestimos();
+//            case 5 -> bibliotecaService.listarLivros();
             default -> mostraMensagemDeOpcaoInvalida();
         }
 
