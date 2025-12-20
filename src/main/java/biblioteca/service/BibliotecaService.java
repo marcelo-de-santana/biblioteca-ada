@@ -1,15 +1,15 @@
 package biblioteca.service;
 
 import biblioteca.entity.*;
-import biblioteca.repository.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
-import java.util.UUID;
 
 
 public class BibliotecaService {
-    private Biblioteca biblioteca = Biblioteca.getInstancia();
-    private final Scanner input;
+    private final Biblioteca biblioteca = Biblioteca.getInstancia();
+    private Scanner input;
 
     public BibliotecaService(Scanner input) {
         this.input = new Scanner(System.in);
@@ -19,17 +19,9 @@ public class BibliotecaService {
      * TODO :
      * Criar os Prompts para cada cadastro
      */
-    public void cadastrarAutor(Autor autor) {
-        autor.setId(UUID.randomUUID());
-        System.out.println("Informe o nome do autor: ");
-        autor.setNome(input.nextLine());
-        System.out.println("Informe a nacionalidade do autor: ");
-        autor.setNacionalidade(input.nextLine());
-        biblioteca.cadastrarAutor(autor);
-    }
+
 
     public void cadastrarCliente(Cliente cliente) {
-        cliente.setId(UUID.randomUUID());
         System.out.println("Informe o nome do cliente: ");
         cliente.setNome(input.nextLine());
         System.out.println("Informe o email do cliente: ");
@@ -39,40 +31,27 @@ public class BibliotecaService {
         biblioteca.cadastrarCliente(cliente);
     }
 
-    public void cadastrarEditora(Editora editora) {
-        editora.setId(UUID.randomUUID());
-        System.out.println("Informe o nome da editora: ");
-        editora.setNome(input.nextLine());
-        System.out.println("Informe o cnpj da editora: ");
-        editora.setCnpj(input.nextLine());
-        System.out.println("Informe o endereço da editora: ");
-        editora.setEndereco(input.nextLine());
-        System.out.println("Informe o telefone da editora");
-        editora.setTelefone(input.nextLine());
-        System.out.println("Informe o email da editora");
-        editora.setEmail(input.nextLine());
-        biblioteca.cadastrarEditora(editora);
-    }
-
-    public static void cadastrarEmprestimo(Emprestimo emprestimo) {
-        emprestimo.setId(UUID.randomUUID());
-        System.out.println("Informe a data do empréstimo: ");
-
-    }
-
-    public void listarAutor() {
-    }
-
-
-    public static void cadastrarLivro(Scanner promptInput) {
-        var livro = Livro.builder().isbn(UUID.randomUUID()).build();
+    public void cadastrarLivro() {
+        var livro = Livro.builder().build();
         System.out.println("Digite o título do livro:");
-        livro.setTitulo(promptInput.nextLine());
-        System.out.println("Digite a quantidade de páginas:");
-        livro.setNumeroDePaginas(promptInput.nextInt());
-        System.out.println("Digite o ano de publicação:");
-        livro.setAnoPublicacao(promptInput.nextInt());
+        livro.setTitulo(input.nextLine());
 
+        System.out.println("Digite a quantidade de páginas:");
+        livro.setNumeroDePaginas(input.nextInt());
+
+        System.out.println("Digite o ano de publicação:");
+        livro.setAnoPublicacao(input.nextInt());
+
+        livro.setEmprestado(false);
+
+        System.out.println("Editoras");
+        biblioteca.getEditoras().forEach(editora -> editora.mostrarEditora());
+
+        System.out.println("A qual editora pertence o livro?");
+        input.nextInt();
+//        System.out.println(listarEditoras().toString());
+
+        biblioteca.cadastrar(livro);
 
     }
 
@@ -82,25 +61,35 @@ public class BibliotecaService {
     public void removerLivros() {
     }
 
-    public void listarLivros() {
-        biblioteca.listarLivros();
+    public List<Livro> getLivros() {
+        return biblioteca.getLivros();
     }
 
-    public void listarAutores() {
-        biblioteca.listarAutores();
+    public List<Autor> getAutores() {
+        return biblioteca.getAutores();
     }
 
-    public void listarClientes() {
-        biblioteca.listarClientes();
+    public List<Cliente> getClientes() {
+        return biblioteca.getClientes();
     }
 
-    public void listarEditoras() {
-        biblioteca.listarEditoras();
+    public List<Editora> getEditoras() {
+        return biblioteca.getEditoras();
     }
 
-    public void listarEmprestimos() {
-        biblioteca.listarEmprestimos();
+    public void cadastrar(Editora novaEditora) {
+        biblioteca.cadastrar(novaEditora);
     }
 
+    public void cadastrar(Autor autor) {
+        biblioteca.cadastrar(autor);
+    }
 
+    public List<Livro> getCatalogo() {
+        return biblioteca.getLivros();
+    }
+
+    public Optional<Autor> getAutor(int autorId) {
+        return biblioteca.getAutor(autorId);
+    }
 }

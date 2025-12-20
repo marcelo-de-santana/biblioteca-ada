@@ -9,9 +9,8 @@ import java.util.UUID;
 @Data
 @Builder
 public class Emprestimo {
-    private UUID id;
+    private int id;
     private LocalDate dataEmprestimo;
     private LocalDate dataPrevistaDevolucao;
     private boolean emprestado;
-
 }

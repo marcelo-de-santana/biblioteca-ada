@@ -1,12 +1,16 @@
 package biblioteca.entity;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class Cliente extends Pessoa{
+public class Cliente extends Pessoa {
     private String email;
     private Integer telefone;
     private Integer cpf;
+
+    public String mostrar() {
+        return getCpf() + " - " + getNome();
+    }
 }

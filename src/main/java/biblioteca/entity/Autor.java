@@ -1,14 +1,14 @@
 package biblioteca.entity;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
 public class Autor extends Pessoa {
     private String nacionalidade;
 
+    public String mostrar() {
+        return getId() + " - " + getNome();
+    }
 }
