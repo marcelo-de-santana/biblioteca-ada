@@ -3,8 +3,6 @@ package biblioteca.entity;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.*;
-
 @Data
 @Builder
 public class Editora {

@@ -1,11 +1,14 @@
 package biblioteca.service;
 
-import biblioteca.entity.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import biblioteca.entity.Autor;
+import biblioteca.entity.Biblioteca;
+import biblioteca.entity.Cliente;
+import biblioteca.entity.Editora;
+import biblioteca.entity.Livro;
 
 public class BibliotecaService {
     private final Biblioteca biblioteca = Biblioteca.getInstancia();
@@ -20,19 +23,17 @@ public class BibliotecaService {
      * Criar os Prompts para cada cadastro
      */
 
-
-    public void cadastrarCliente(Cliente cliente) {
+    public boolean cadastrar(Cliente cliente) {
         System.out.println("Informe o nome do cliente: ");
         cliente.setNome(input.nextLine());
         System.out.println("Informe o email do cliente: ");
         cliente.setEmail(input.nextLine());
         System.out.println("Informe o cpf do cliente: ");
         cliente.setCpf(input.nextInt());
-        biblioteca.cadastrarCliente(cliente);
+        return biblioteca.cadastrar(cliente);
     }
 
-    public void cadastrarLivro() {
-        var livro = Livro.builder().build();
+    public boolean cadastrar(Livro livro) {
         System.out.println("Digite o título do livro:");
         livro.setTitulo(input.nextLine());
 
@@ -49,16 +50,10 @@ public class BibliotecaService {
 
         System.out.println("A qual editora pertence o livro?");
         input.nextInt();
-//        System.out.println(listarEditoras().toString());
+        // System.out.println(listarEditoras().toString());
 
-        biblioteca.cadastrar(livro);
+        return biblioteca.cadastrar(livro);
 
-    }
-
-    public void adicionarLivros() {
-    }
-
-    public void removerLivros() {
     }
 
     public List<Livro> getLivros() {
@@ -77,12 +72,12 @@ public class BibliotecaService {
         return biblioteca.getEditoras();
     }
 
-    public void cadastrar(Editora novaEditora) {
-        biblioteca.cadastrar(novaEditora);
+    public boolean cadastrar(Editora novaEditora) {
+        return biblioteca.cadastrar(novaEditora);
     }
 
-    public void cadastrar(Autor autor) {
-        biblioteca.cadastrar(autor);
+    public boolean cadastrar(Autor autor) {
+        return biblioteca.cadastrar(autor);
     }
 
     public List<Livro> getCatalogo() {
@@ -91,5 +86,49 @@ public class BibliotecaService {
 
     public Optional<Autor> getAutor(int autorId) {
         return biblioteca.getAutor(autorId);
+    }
+
+    public Optional<Editora> getEditora(int editoraId) {
+        return biblioteca.getEditora(editoraId);
+    }
+
+    public Optional<Livro> getLivro(int livroId) {
+        return biblioteca.getLivro(livroId);
+    }
+
+    public Optional<Cliente> getCliente(int clienteId) {
+        return biblioteca.getCliente(clienteId);
+    }
+
+    public boolean excluir(Autor autor) {
+        return biblioteca.excluir(autor);
+    }
+
+    public boolean excluir(Editora editora) {
+        return biblioteca.excluir(editora);
+    }
+
+    public boolean excluir(Livro livro) {
+        return biblioteca.excluir(livro);
+    }
+
+    public boolean excluir(Cliente cliente) {
+        return biblioteca.excluir(cliente);
+    }
+
+    public boolean atualizar(Autor autor) {
+        return biblioteca.atualizar(autor);
+    }
+
+    public boolean atualizar(Editora editora) {
+        return biblioteca.atualizar(editora);
+    }
+
+    public boolean atualizar(Livro livro) {
+        return biblioteca.atualizar(livro);
+    }
+
+    public boolean atualizar(Cliente cliente) {
+        return biblioteca.atualizar(cliente);
     }
 }

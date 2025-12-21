@@ -1,7 +1,5 @@
 package biblioteca.entity;
 
-import lombok.Data;
-
 public enum Categoria {
     FICCAO,
     NAO_FICCAO,

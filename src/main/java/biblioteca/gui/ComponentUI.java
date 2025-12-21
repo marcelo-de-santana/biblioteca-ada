@@ -20,7 +20,7 @@ public class ComponentUI {
     }
 
     public static String centralizarTitulo(String texto) {
-        var espacamento = "============================================================";
+        var espacamento = "------------------------------------------------------------";
         var fimTexto = espacamento.length() / 2 + texto.length() / 2 + 1;
 
         if (texto.length() % 2 == 0) {

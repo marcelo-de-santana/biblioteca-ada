@@ -1,15 +1,13 @@
 package biblioteca.gui;
 
-import biblioteca.entity.Autor;
+import static biblioteca.gui.ComponentUI.*;
+
+import java.util.Scanner;
+
 import biblioteca.entity.Cliente;
 import biblioteca.entity.Editora;
 import biblioteca.entity.Livro;
 import biblioteca.service.BibliotecaService;
-
-import java.util.Scanner;
-
-import static biblioteca.gui.ComponentUI.*;
-
 
 public class ApplicationUI {
     private static final Scanner promptInput = new Scanner(System.in);
@@ -36,7 +34,6 @@ public class ApplicationUI {
             bibliotecaService.getCatalogo().forEach(livro -> System.out.println(livro.toString()));
         }
     }
-
 
     static void cadastrarEmprestimo() {
     }
@@ -73,62 +70,13 @@ public class ApplicationUI {
 
     }
 
-    static void cadastrarAutor() {
-        mostrarTitulo("CADASTRANDO UM AUTOR");
-        var novoAutor = new Autor();
-
-        System.out.println("Nome:");
-        novoAutor.setNome(promptInput.nextLine());
-
-        bibliotecaService.cadastrar((Autor) novoAutor);
-    }
-
-
     static void menuConsultar() {
         mostrarTitulo("CONSULTAR");
         mostrarMenu("1 - AUTORES | 2 - CLIENTES | 3 - EDITORAS | 4 - LIVROS");
         mensagemSelecioneUmaOpcao();
 
         switch (promptInput.nextLine()) {
-            case "1" -> {
-                consultarAutores();
-                mostrarMenuCrud();
-
-                switch (promptInput.nextLine()) {
-                    case "1" -> cadastrarAutor();
-                    case "2" -> alterarAutor();
-                    case "3" -> excluirAutor();
-                }
-            }
-        }
-    }
-
-    static void excluirAutor() {
-    }
-
-    static void alterarAutor() {
-        consultarAutores();
-        System.out.println("\nQual autor deseja alterar(ID)?");
-        var autorId = promptInput.nextLine();
-
-        var autor = bibliotecaService.getAutor(Integer.parseInt(autorId));
-
-        if (autor.isEmpty()) {
-            System.out.println("Autor não localizado");
-        } else {
-            System.out.println("Nome:" + promptInput.nextLine() + autor.get().getNome());
-        }
-
-
-    }
-
-    static void consultarAutores() {
-        mostrarTitulo("CONSULTAR AUTORES");
-        if (bibliotecaService.getAutores().isEmpty()) {
-            System.out.println("Nenhum autor cadastrado");
-        }
-        for (Autor autor : bibliotecaService.getAutores()) {
-            System.out.println(autor.mostrar());
+            case "1" -> new AutorUI(bibliotecaService, promptInput).iniciarUi();
         }
     }
 
