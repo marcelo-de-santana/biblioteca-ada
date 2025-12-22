@@ -1,6 +1,8 @@
-package biblioteca.gui;
+package biblioteca;
 
-import static biblioteca.service.CadastroUtils.cadatrarEditoras;
+import static biblioteca.utils.CadastroUtils.*;
+
+import biblioteca.gui.ApplicationUI;
 
 public class Main {
 

@@ -1,9 +1,9 @@
-package biblioteca.service;
+package biblioteca.utils;
+
+import java.util.List;
 
 import biblioteca.entity.Biblioteca;
 import biblioteca.entity.Editora;
-
-import java.util.List;
 
 public class CadastroUtils {
     private static final Biblioteca biblioteca = Biblioteca.getInstancia();

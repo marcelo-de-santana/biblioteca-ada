@@ -6,11 +6,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Cliente extends Pessoa {
+    private String cpf;
     private String email;
-    private Integer telefone;
-    private Integer cpf;
+    private String telefone;
 
     public String mostrar() {
-        return getCpf() + " - " + getNome();
+        return getId() + " - " + getNome() + " - " + getCpf() + " - "
+                + getEmail() + " - " + getTelefone();
     }
 }

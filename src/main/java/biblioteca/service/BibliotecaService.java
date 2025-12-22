@@ -18,18 +18,7 @@ public class BibliotecaService {
         this.input = new Scanner(System.in);
     }
 
-    /**
-     * TODO :
-     * Criar os Prompts para cada cadastro
-     */
-
     public boolean cadastrar(Cliente cliente) {
-        System.out.println("Informe o nome do cliente: ");
-        cliente.setNome(input.nextLine());
-        System.out.println("Informe o email do cliente: ");
-        cliente.setEmail(input.nextLine());
-        System.out.println("Informe o cpf do cliente: ");
-        cliente.setCpf(input.nextInt());
         return biblioteca.cadastrar(cliente);
     }
 

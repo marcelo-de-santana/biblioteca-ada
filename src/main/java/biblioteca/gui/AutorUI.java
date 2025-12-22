@@ -27,17 +27,19 @@ public class AutorUI {
         }
     }
 
-    public void consultarAutores() {
+    private void consultarAutores() {
         mostrarTitulo("CONSULTAR AUTORES");
         if (bibliotecaService.getAutores().isEmpty()) {
             System.out.println("Nenhum autor cadastrado");
-        }
-        for (Autor autor : bibliotecaService.getAutores()) {
-            System.out.println(autor.mostrar());
+        } else {
+            System.out.println("ID - NOME - NACIONALIDADE");
+            for (Autor autor : bibliotecaService.getAutores()) {
+                System.out.println(autor.mostrar());
+            }
         }
     }
 
-    public void cadastrarAutor() {
+    private void cadastrarAutor() {
         mostrarTitulo("CADASTRANDO UM AUTOR");
         var novoAutor = new Autor();
 
@@ -54,51 +56,60 @@ public class AutorUI {
         }
     }
 
-    public void alterarAutor() {
+    private void alterarAutor() {
         System.out.println("\nQual autor deseja alterar(ID)?");
         var autorId = promptInput.nextLine();
 
+        if (autorId.isBlank()) {
+            System.out.println("ID inválido");
+            return;
+        }
+
         var autor = bibliotecaService.getAutor(Integer.parseInt(autorId));
 
         if (autor.isEmpty()) {
             System.out.println("Autor não localizado");
+            return;
+        }
+
+        System.out.println("Nome atual: " + autor.get().getNome());
+        System.out.println("Digite o novo nome (ou ENTER para manter):");
+        var novoNome = promptInput.nextLine();
+
+        if (!novoNome.isBlank()) {
+            autor.get().setNome(novoNome);
+        }
+
+        System.out.println("Nacionalidade atual: " + autor.get().getNacionalidade());
+        System.out.println("Digite a nova nacionalidade (ou ENTER para manter):");
+        var novaNacionalidade = promptInput.nextLine();
+
+        if (!novaNacionalidade.isBlank()) {
+            autor.get().setNacionalidade(novaNacionalidade);
+        }
+
+        if (bibliotecaService.atualizar(autor.get())) {
+            System.out.println("Dados atualizado com sucesso!");
         } else {
-            var autorEncontrado = autor.get();
-            System.out.println("Nome atual: " + autorEncontrado.getNome());
-            System.out.println("Digite o novo nome (ou ENTER para manter):");
-            var novoNome = promptInput.nextLine();
-
-            System.out.println("Nacionalidade atual: " + autorEncontrado.getNacionalidade());
-            System.out.println("Digite a nova nacionalidade (ou ENTER para manter):");
-            var novaNacionalidade = promptInput.nextLine();
-
-            if (!novoNome.isBlank()) {
-                autorEncontrado.setNome(novoNome);
-            }
-            if (!novaNacionalidade.isBlank()) {
-                autorEncontrado.setNacionalidade(novaNacionalidade);
-            }
-
-            if (!(novoNome.isBlank() || novaNacionalidade.isBlank())) {
-                if (bibliotecaService.atualizar(autorEncontrado)) {
-                    System.out.println("Dados atualizado com sucesso!");
-                } else {
-                    System.out.println("Erro ao alterar os dados");
-                }
-            }
+            System.out.println("Erro ao alterar os dados");
         }
     }
 
-    public void excluirAutor() {
+    private void excluirAutor() {
         System.out.println("\nQual autor deseja excluir(ID)?");
         var autorId = promptInput.nextLine();
 
+        if (autorId.isBlank()) {
+            System.out.println("ID inválido");
+            return;
+        }
+
         var autor = bibliotecaService.getAutor(Integer.parseInt(autorId));
 
-        if (autor.isEmpty()) {
-            System.out.println("Autor não localizado");
-        } else if (bibliotecaService.excluir(autor.get())) {
+        if (bibliotecaService.excluir(autor.get())) {
             System.out.println("Autor excluído com sucesso!");
+        } else {
+            System.out.println("Erro ao excluir autor");
         }
     }
 

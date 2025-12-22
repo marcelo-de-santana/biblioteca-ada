@@ -9,6 +9,7 @@ public class Autor extends Pessoa {
     private String nacionalidade;
 
     public String mostrar() {
-        return getId() + " - " + getNome();
+        return getId() + " - " + getNome() + " - " + getNacionalidade();
     }
+
 }

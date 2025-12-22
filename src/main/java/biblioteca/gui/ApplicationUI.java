@@ -4,10 +4,10 @@ import static biblioteca.gui.ComponentUI.*;
 
 import java.util.Scanner;
 
-import biblioteca.entity.Cliente;
 import biblioteca.entity.Editora;
 import biblioteca.entity.Livro;
 import biblioteca.service.BibliotecaService;
+import biblioteca.utils.FormatadorUtils;
 
 public class ApplicationUI {
     private static final Scanner promptInput = new Scanner(System.in);
@@ -55,7 +55,7 @@ public class ApplicationUI {
         novaEditora.setEndereco(promptInput.nextLine());
 
         System.out.println("Informe o telefone");
-        novaEditora.setTelefone(promptInput.nextLine());
+        novaEditora.setTelefone(FormatadorUtils.formatarTelefone(promptInput.nextLine()));
 
         System.out.println("Informe o e-mail");
         novaEditora.setEmail(promptInput.nextLine());
@@ -70,23 +70,25 @@ public class ApplicationUI {
 
     }
 
+    /*
+     * Menu Consultar
+     * Responsável por chamar os tipos de consulta (autores, clientes, editoras,
+     * livros)
+     */
     static void menuConsultar() {
         mostrarTitulo("CONSULTAR");
         mostrarMenu("1 - AUTORES | 2 - CLIENTES | 3 - EDITORAS | 4 - LIVROS");
         mensagemSelecioneUmaOpcao();
 
         switch (promptInput.nextLine()) {
-            case "1" -> new AutorUI(bibliotecaService, promptInput).iniciarUi();
-        }
-    }
-
-    static void listarClientes() {
-        mostrarTitulo("CONSULTAR CLIENTES");
-        if (bibliotecaService.getClientes().isEmpty()) {
-            System.out.println("Nenhum cliente cadastrado");
-        }
-        for (Cliente cliente : bibliotecaService.getClientes()) {
-            System.out.println(cliente.mostrar());
+            case "1":
+                new AutorUI(bibliotecaService, promptInput).iniciarUi();
+            case "2":
+                new ClienteUI(bibliotecaService, promptInput).iniciarUi();
+            case "3":
+                listarEditoras();
+            case "4":
+                listarLivros();
         }
     }
 

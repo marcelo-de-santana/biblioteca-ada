@@ -18,6 +18,7 @@ public class Editora {
     }
 
     public String mostrar() {
-        return id + " - " + nome;
+        return id + " - " + nome + " - " + cnpj + " - " + endereco + " - "
+                + telefone + " - " + email;
     }
 }
