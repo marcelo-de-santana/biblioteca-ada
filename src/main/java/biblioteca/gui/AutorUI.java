@@ -8,8 +8,8 @@ import biblioteca.entity.Autor;
 import biblioteca.service.BibliotecaService;
 
 public class AutorUI {
-    private BibliotecaService bibliotecaService;
-    private Scanner promptInput;
+    private final BibliotecaService bibliotecaService;
+    private final Scanner promptInput;
 
     public AutorUI(BibliotecaService bibliotecaService, Scanner promptInput) {
         this.bibliotecaService = bibliotecaService;

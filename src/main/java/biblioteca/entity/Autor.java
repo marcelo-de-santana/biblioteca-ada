@@ -12,4 +12,15 @@ public class Autor extends Pessoa {
         return getId() + " - " + getNome() + " - " + getNacionalidade();
     }
 
+    public Autor() {
+        super();
+    }
+
+    public Autor(int id, String nome, String nacionalidade) {
+        super();
+        this.setId(id);
+        this.setNome(nome);
+        this.nacionalidade = nacionalidade;
+    }
+
 }

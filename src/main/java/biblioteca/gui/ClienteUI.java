@@ -9,8 +9,8 @@ import biblioteca.service.BibliotecaService;
 import biblioteca.utils.FormatadorUtils;
 
 public class ClienteUI {
-    private BibliotecaService bibliotecaService;
-    private Scanner promptInput;
+    private final BibliotecaService bibliotecaService;
+    private final Scanner promptInput;
 
     public ClienteUI(BibliotecaService bibliotecaService, Scanner promptInput) {
         this.bibliotecaService = bibliotecaService;

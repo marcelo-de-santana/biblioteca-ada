@@ -4,10 +4,8 @@ import static biblioteca.gui.ComponentUI.*;
 
 import java.util.Scanner;
 
-import biblioteca.entity.Editora;
 import biblioteca.entity.Livro;
 import biblioteca.service.BibliotecaService;
-import biblioteca.utils.FormatadorUtils;
 
 public class ApplicationUI {
     private static final Scanner promptInput = new Scanner(System.in);
@@ -41,33 +39,7 @@ public class ApplicationUI {
     static void cadastraEmprestimo() {
     }
 
-    static void cadastrarEditora() {
-        var novaEditora = Editora.builder().build();
-
-        System.out.println("==== NOVA EDITORA ====");
-        System.out.println("Informe o nome: ");
-        novaEditora.setNome(promptInput.nextLine());
-
-        System.out.println("Informe o CNPJ: ");
-        novaEditora.setCnpj(promptInput.nextLine());
-
-        System.out.println("Informe o endereço: ");
-        novaEditora.setEndereco(promptInput.nextLine());
-
-        System.out.println("Informe o telefone");
-        novaEditora.setTelefone(FormatadorUtils.formatarTelefone(promptInput.nextLine()));
-
-        System.out.println("Informe o e-mail");
-        novaEditora.setEmail(promptInput.nextLine());
-
-        bibliotecaService.cadastrar(novaEditora);
-    }
-
     static void cadastrarLivro() {
-    }
-
-    static void cadastrarCliente() {
-
     }
 
     /*
@@ -81,24 +53,10 @@ public class ApplicationUI {
         mensagemSelecioneUmaOpcao();
 
         switch (promptInput.nextLine()) {
-            case "1":
-                new AutorUI(bibliotecaService, promptInput).iniciarUi();
-            case "2":
-                new ClienteUI(bibliotecaService, promptInput).iniciarUi();
-            case "3":
-                listarEditoras();
-            case "4":
-                listarLivros();
-        }
-    }
-
-    static void listarEditoras() {
-        mostrarTitulo("CONSULTAR EDITORAS");
-        if (bibliotecaService.getEditoras().isEmpty()) {
-            System.out.println("Nenhuma editora cadastrada");
-        }
-        for (Editora editora : bibliotecaService.getEditoras()) {
-            System.out.println(editora.mostrar());
+            case "1"-> new AutorUI(bibliotecaService, promptInput).iniciarUi();
+            case "2"-> new ClienteUI(bibliotecaService, promptInput).iniciarUi();
+            case "3" -> new EditoraUI(bibliotecaService, promptInput).iniciarUi();
+        //    case "4" -> new LivroUI(bibliotecaService, promptInput).iniciarUi();
         }
     }
 

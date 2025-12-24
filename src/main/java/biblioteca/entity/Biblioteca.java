@@ -14,11 +14,11 @@ public class Biblioteca {
     private final String nome = "Biblioteca Nacional";
     private final LocalDate anoCriacao = LocalDate.of(2025, 01, 01);
 
-    private final List<Livro> livros = new ArrayList<Livro>();
-    private final List<Emprestimo> emprestimos = new ArrayList<>();
+    private List<Livro> livros = new ArrayList<Livro>();
+    private List<Emprestimo> emprestimos = new ArrayList<>();
     private List<Editora> editoras = new ArrayList<>();
-    private final List<Cliente> clientes = new ArrayList<Cliente>();
-    private final List<Autor> autores = new ArrayList<>();
+    private List<Cliente> clientes = new ArrayList<Cliente>();
+    private List<Autor> autores = new ArrayList<>();
 
     private Biblioteca() {
     }
@@ -29,7 +29,8 @@ public class Biblioteca {
 
     public boolean cadastrar(Cliente novoCliente) {
         var clienteJaCadastrado = clientes.stream()
-                .anyMatch(clienteCadastrado -> clienteCadastrado.getCpf().equals(novoCliente.getCpf()));
+                .anyMatch(clienteCadastrado -> clienteCadastrado.getCpf()
+                        .equals(novoCliente.getCpf()));
 
         if (clienteJaCadastrado) {
             System.out.println("Cliente já cadastrado");
