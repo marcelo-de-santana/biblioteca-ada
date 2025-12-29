@@ -11,6 +11,7 @@ public class ComponentUI {
     }
 
     public static void mostrarMenuCrud() {
+        System.out.println();
         mostrarMenu("1 - CADASTRAR | 2 - ALTERAR | 3 - EXCLUIR | 0 - VOLTAR");
         mensagemSelecioneUmaOpcao();
     }
