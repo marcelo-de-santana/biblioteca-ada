@@ -7,7 +7,9 @@ import java.util.Scanner;
 import biblioteca.entity.Editora;
 import biblioteca.service.BibliotecaService;
 import biblioteca.utils.FormatadorUtils;
+import lombok.Data;
 
+@Data
 public class EditoraUI {
     private final BibliotecaService bibliotecaService;
     private final Scanner promptInput;

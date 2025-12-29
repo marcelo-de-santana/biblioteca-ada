@@ -56,7 +56,7 @@ public class ApplicationUI {
             case "1"-> new AutorUI(bibliotecaService, promptInput).iniciarUi();
             case "2"-> new ClienteUI(bibliotecaService, promptInput).iniciarUi();
             case "3" -> new EditoraUI(bibliotecaService, promptInput).iniciarUi();
-        //    case "4" -> new LivroUI(bibliotecaService, promptInput).iniciarUi();
+            case "4" -> new LivroUI(bibliotecaService, promptInput).iniciarUi();
         }
     }
 

@@ -4,11 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import biblioteca.entity.Autor;
-import biblioteca.entity.Biblioteca;
-import biblioteca.entity.Cliente;
-import biblioteca.entity.Editora;
-import biblioteca.entity.Livro;
+import biblioteca.entity.*;
 
 public class BibliotecaService {
     private final Biblioteca biblioteca = Biblioteca.getInstancia();
@@ -16,33 +12,6 @@ public class BibliotecaService {
 
     public BibliotecaService(Scanner input) {
         this.input = new Scanner(System.in);
-    }
-
-    public boolean cadastrar(Cliente cliente) {
-        return biblioteca.cadastrar(cliente);
-    }
-
-    public boolean cadastrar(Livro livro) {
-        System.out.println("Digite o título do livro:");
-        livro.setTitulo(input.nextLine());
-
-        System.out.println("Digite a quantidade de páginas:");
-        livro.setNumeroDePaginas(input.nextInt());
-
-        System.out.println("Digite o ano de publicação:");
-        livro.setAnoPublicacao(input.nextInt());
-
-        livro.setEmprestado(false);
-
-        System.out.println("Editoras");
-        biblioteca.getEditoras().forEach(editora -> editora.mostrarEditora());
-
-        System.out.println("A qual editora pertence o livro?");
-        input.nextInt();
-        // System.out.println(listarEditoras().toString());
-
-        return biblioteca.cadastrar(livro);
-
     }
 
     public List<Livro> getLivros() {
@@ -60,6 +29,12 @@ public class BibliotecaService {
     public List<Editora> getEditoras() {
         return biblioteca.getEditoras();
     }
+
+    public boolean cadastrar(Cliente cliente) {
+        return biblioteca.cadastrar(cliente);
+    }
+
+    public boolean cadastrar(Livro livro) {return biblioteca.cadastrar(livro);}
 
     public boolean cadastrar(Editora novaEditora) {
         return biblioteca.cadastrar(novaEditora);

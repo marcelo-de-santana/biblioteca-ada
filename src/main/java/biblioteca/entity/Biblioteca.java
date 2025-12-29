@@ -146,7 +146,7 @@ public class Biblioteca {
                 .filter(l -> l.getIsbn() == livro.getIsbn())
                 .findFirst()
                 .map(livroEncontrado -> {
-                    livroEncontrado.setTitulo(livro.getTitulo());
+                    livroEncontrado.setNome(livro.getNome());
                     livroEncontrado.setAutor(livro.getAutor());
                     livroEncontrado.setEditora(livro.getEditora());
                     livroEncontrado.setAnoPublicacao(livro.getAnoPublicacao());
