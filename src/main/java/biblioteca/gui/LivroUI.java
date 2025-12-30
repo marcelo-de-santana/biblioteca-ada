@@ -66,11 +66,11 @@ public class LivroUI {
 
         //listar as categorias e receber o ID, verificar se está vazio ou não
         var categoria = atribuirCategoria();
-        if (autor == null) {
+        if (categoria == null) {
             System.out.println("Cadastro de livro cancelado: categoria não selecionada.");
             return;
         }
-        novoLivro.setAutor(autor);
+        novoLivro.setCategoria(categoria);
 
         //listar as editoras e receber o ID, verificar se está vazio ou não
         var editora = atribuirEditora();
@@ -142,49 +142,42 @@ public class LivroUI {
 
         System.out.println("-------------------------");
         System.out.println("Selecione a categoria (ID ou nome).:");
+        var entrada = promptInput.nextLine();
 
-        while (true) {
-            var entrada = promptInput.nextLine();
+        while (entrada == null || entrada.isBlank()){
+            System.out.println("Entrada vazia. Informe um ID ou nome válido:");
+            entrada = promptInput.nextLine();
+        }
 
-            if (entrada == null || entrada.isBlank()) {
-                System.out.println("Entrada vazia. Informe um ID ou nome válido (ou 0 para cancelar):");
-                continue;
+        try {
+            var id = Integer.parseInt(entrada.trim());
+            var cat = Categoria.porId(id);
+            if (cat != null) {
+                System.out.printf("Categoria selecionada: %s (ID: %d)%n", cat.getDescricao(), cat.getId());
+                return cat;
+            } else {
+                System.out.println("ID inválido. Tente novamente!");
             }
-
-            // Tenta por ID
-            try {
-                var id = Integer.parseInt(entrada.trim());
-                var cat = Categoria.porId(id);
-                if (cat != null) {
-                    System.out.printf("Categoria selecionada: %s (ID: %d)%n", cat.getDescricao(), cat.getId());
-                    return cat;
-                } else {
-                    System.out.println("ID inválido. Tente novamente!");
-                    continue;
-                }
-            } catch (NumberFormatException ignore) {
-                // Não é número; tenta por texto
-            }
-
-            var catTexto = Categoria.porTexto(entrada);
-            if (catTexto != null) {
-                System.out.printf("Categoria selecionada: %s (ID: %d)%n", catTexto.getDescricao(), catTexto.getId());
-                return catTexto;
+        } catch (NumberFormatException ignore) {
+            var cat = Categoria.porTexto(entrada);
+            if (cat != null) {
+                System.out.printf("Categoria selecionada: %s (ID: %d)%n", cat.getDescricao(), cat.getId());
+                return cat;
             } else {
                 System.out.println("Categoria não localizada. Tente novamente!");
             }
-
         }
+        return atribuirCategoria();
     }
 
     private Editora atribuirEditora(){
-        EditoraUI.consultarEditoras();
-        if (bibliotecaService.getAutores().isEmpty()) {
-            System.out.println("Nenhum autor cadastrado. Cadastre um autor antes de continuar.");
+        consultarEditoras();
+        if (bibliotecaService.getEditoras().isEmpty()) {
+            System.out.println("Nenhuma editora cadastrada. Cadastre uma editora antes de continuar.");
             return null;
         }
 
-        System.out.println("Selecione um autor (ID):");
+        System.out.println("Selecione uma editora (ID):");
 
         while (true) {
             var entrada = promptInput.nextLine();
@@ -195,14 +188,14 @@ public class LivroUI {
             }
             try {
                 int id = Integer.parseInt(entrada.trim());
-                var autorOpc = bibliotecaService.getAutor(id);
+                var editoraOpc = bibliotecaService.getEditora(id);
 
-                if (autorOpc.isPresent()) {
-                    var autor = autorOpc.get();
-                    System.out.printf("Autor selecionado: %s (%s)%n", autor.getNome(), autor.getNacionalidade());
-                    return autor;
+                if (editoraOpc.isPresent()) {
+                    var editora = editoraOpc.get();
+                    System.out.printf("Editora selecionada: ID: %d | Nome: %s | CNPJ: %s | Endereço: %s | Telefone: %s | E-mail: %s%n", editora.getId(), editora.getNome(), editora.getCnpj(), editora.getEndereco(), editora.getTelefone(), editora.getEmail());
+                    return editora;
                 } else {
-                    System.out.println("Autor não localizado. Tente novamente:");
+                    System.out.println("Editora não localizada. Tente novamente:");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Entrada inválida. Informe um número inteiro:");
