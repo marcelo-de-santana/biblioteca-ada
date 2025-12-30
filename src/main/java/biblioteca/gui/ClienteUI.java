@@ -56,7 +56,8 @@ public class ClienteUI {
         novoCliente.setEmail(promptInput.nextLine());
 
         System.out.println("Telefone(DDD 99999-9999):");
-        novoCliente.setTelefone(FormatadorUtils.formatarTelefone(promptInput.nextLine()));
+        var telefone = validarTamanhoTelefone(promptInput.nextLine());
+        novoCliente.setTelefone(FormatadorUtils.formatarTelefone(telefone));
 
         if (bibliotecaService.cadastrar((Cliente) novoCliente)) {
             System.out.println("Cliente cadastrado com sucesso!");
@@ -140,13 +141,33 @@ public class ClienteUI {
         }
     }
 
-    private String validarTamanhoCpf(String s) {
-        var tam = s.length();
-        while (tam < 14) {
-            System.out.println("Quantidade de dígitos inválida. Tente novamente:");
-            var cpf = promptInput.nextLine();
+    private String validarTamanhoCpf(String c) {
+        var tam = c.length();
+        var cpf = c;
+        while (tam != 11) {
+            if (tam<11){
+                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 11 dígitos. Tente novamente:");
+            } else {
+                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 11 dígitos. Tente novamente:");
+            }
+            cpf = promptInput.nextLine();
             tam = cpf.length();
         }
-        return s;
+        return cpf;
+    }
+
+    private String validarTamanhoTelefone(String t) {
+        var tam = t.length();
+        var telefone = t;
+        while (tam != 11) {
+            if (tam < 11){
+                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 11 dígitos. Tente novamente:");
+            } else {
+                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 11 dígitos. Tente novamente:");
+            }
+            telefone = promptInput.nextLine();
+            tam = telefone.length();
+        }
+        return telefone;
     }
 }

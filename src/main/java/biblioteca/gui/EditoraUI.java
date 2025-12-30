@@ -1,6 +1,7 @@
 package biblioteca.gui;
 
 import static biblioteca.gui.ComponentUI.*;
+import static jdk.internal.org.jline.utils.Colors.s;
 
 import java.util.Scanner;
 
@@ -56,7 +57,8 @@ public class EditoraUI {
         novaEditora.setEndereco(promptInput.nextLine());
 
         System.out.println("Telefone:");
-        novaEditora.setTelefone(FormatadorUtils.formatarTelefone(promptInput.nextLine()));
+        var tel = validarTamanhoTelefone(promptInput.nextLine());
+        novaEditora.setTelefone(FormatadorUtils.formatarTelefone(tel));
 
         System.out.println("E-mail");
         novaEditora.setEmail(promptInput.nextLine());
@@ -150,11 +152,32 @@ public class EditoraUI {
 
     private String validarTamanhoCnpj(String s) {
         var tam = s.length();
-        while (tam < 14) {
-            System.out.println("Quantidade de dígitos inválida. Tente novamente:");
-            var cnpj = promptInput.nextLine();
+        var cnpj = s;
+        while (tam != 14) {
+            if (tam<14){
+                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 14 dígitos. Tente novamente:");
+            } else {
+                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 14 dígitos. Tente novamente:");
+            }
+            cnpj = promptInput.nextLine();
             tam = cnpj.length();
         }
-        return s;
+        return cnpj;
+    }
+
+
+    private String validarTamanhoTelefone(String t) {
+        var tam = t.length();
+        var telefone = t;
+        while (tam != 11) {
+            if (tam < 11){
+                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 11 dígitos. Tente novamente:");
+            } else {
+                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 11 dígitos. Tente novamente:");
+            }
+            telefone = promptInput.nextLine();
+            tam = telefone.length();
+        }
+        return telefone;
     }
 }

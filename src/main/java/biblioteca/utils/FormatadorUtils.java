@@ -11,11 +11,11 @@ public class FormatadorUtils {
 
     public static String formatarCnpj(String cnpj){
         cnpj = removerCaracteresCnpj(cnpj);
-        return cnpj.substring(0, 1) + "." +
-                cnpj.substring(2, 4) + "." +
-                cnpj.substring(5, 7) + "/" +
-                cnpj.substring(8, 11) + "-" +
-                cnpj.substring(12, 13);
+        return cnpj.substring(0, 2) + "." +
+                cnpj.substring(2, 5) + "." +
+                cnpj.substring(5, 8) + "/" +
+                cnpj.substring(8, 12) + "-" +
+                cnpj.substring(12, 14);
     }
 
     private static String removerCaracteresCnpj(String cnpj) {
