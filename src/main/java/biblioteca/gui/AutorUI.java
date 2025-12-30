@@ -57,6 +57,7 @@ public class AutorUI {
     }
 
     private void alterarAutor() {
+        consultarAutores();
         System.out.println("\nQual autor deseja alterar(ID)?");
         var autorId = promptInput.nextLine();
 
