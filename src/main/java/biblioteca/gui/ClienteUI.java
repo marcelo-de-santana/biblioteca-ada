@@ -49,7 +49,8 @@ public class ClienteUI {
         novoCliente.setNome(promptInput.nextLine());
 
         System.out.println("CPF:");
-        novoCliente.setCpf(FormatadorUtils.formatarCpf(promptInput.nextLine()));
+        var cpf = validarTamanhoCpf(promptInput.nextLine());
+        novoCliente.setCpf(FormatadorUtils.formatarCpf(cpf));
 
         System.out.println("E-mail:");
         novoCliente.setEmail(promptInput.nextLine());
@@ -139,4 +140,13 @@ public class ClienteUI {
         }
     }
 
+    private String validarTamanhoCpf(String s) {
+        var tam = s.length();
+        while (tam < 14) {
+            System.out.println("Quantidade de dígitos inválida. Tente novamente:");
+            var cpf = promptInput.nextLine();
+            tam = cpf.length();
+        }
+        return s;
+    }
 }

@@ -49,7 +49,8 @@ public class EditoraUI {
         novaEditora.setNome(promptInput.nextLine());
 
         System.out.println("CNPJ:");
-        novaEditora.setCnpj(promptInput.nextLine());
+        var cnpj = validarTamanhoCnpj(promptInput.nextLine());
+        novaEditora.setCnpj(FormatadorUtils.formatarCnpj(cnpj));
 
         System.out.println("Endereço:");
         novaEditora.setEndereco(promptInput.nextLine());
@@ -147,4 +148,13 @@ public class EditoraUI {
         }
     }
 
+    private String validarTamanhoCnpj(String s) {
+        var tam = s.length();
+        while (tam < 14) {
+            System.out.println("Quantidade de dígitos inválida. Tente novamente:");
+            var cnpj = promptInput.nextLine();
+            tam = cnpj.length();
+        }
+        return s;
+    }
 }
