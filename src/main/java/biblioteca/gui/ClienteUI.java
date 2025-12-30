@@ -120,6 +120,8 @@ public class ClienteUI {
     }
 
     private void excluirCliente() {
+        consultarClientes();
+
         System.out.println("\nQual cliente deseja excluir(ID)?");
         var clienteId = promptInput.nextLine();
 
