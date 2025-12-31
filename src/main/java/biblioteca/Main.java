@@ -1,13 +1,12 @@
 package biblioteca;
 
-import static biblioteca.utils.CadastroUtils.*;
-
 import biblioteca.gui.ApplicationUI;
+import biblioteca.utils.CadastroUtils;
 
 public class Main {
 
     public static void main(String[] args) {
-        cadatrarEditoras();
+        CadastroUtils.inicializarDados();
         ApplicationUI.iniciarUi();
     }
 

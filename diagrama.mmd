@@ -1,0 +1,97 @@
+
+classDiagram
+%% Direção opcional
+%% direction LR
+
+%% Herança
+    Pessoa <|-- Autor
+    Pessoa <|-- Cliente
+
+%% Classes principais
+    class Biblioteca {
+        +UUID id
+        +String nome
+        +int anoCriacao
+    }
+
+    class Livro {
+        +UUID isbn
+        +String titulo
+        +int numeroDePaginas
+        +int anoPublicacao
+        +Categoria categoria
+        +Editora editora
+    }
+
+    class Pessoa {
+        +UUID id
+        +String nome
+    }
+
+    class Autor {
+        +String nacionalidade
+    }
+
+    class Cliente {
+        +String email
+        +Integer telefone
+        +Integer cpf
+    }
+
+    class Emprestimo {
+        +UUID id
+        +LocalDate dataEmprestimo
+        +LocalDate dataPrevistaDevolucao
+        +LocalDate? dataDevolucao
+        +boolean emprestado
+    }
+
+%% Enum de categorias
+    class Categoria {
+        <<enumeration>>
+        FICCAO
+        NAO_FICCAO
+        TECNOLOGIA
+        HISTORIA
+        CIENCIAS
+        ARTE
+        INFANTO_JUVENIL
+        BIOGRAFIA
+        ROMANCE
+        FANTASIA
+        MISTERIO
+    }
+
+%% Editora (Publisher)
+    class Editora {
+        +UUID id
+        +String nome
+        +String cnpj
+        +String endereco
+        +String telefone
+        +String email
+    }
+
+%% Relacionamentos
+%% Biblioteca agrega coleções de entidades
+Biblioteca o-- "0..*" Livro : livros
+Biblioteca o-- "0..*" Autor : autores
+Biblioteca o-- "0..*" Cliente : clientes
+Biblioteca o-- "0..*" Editora : editoras
+
+%% Livro tem uma única categoria (enum)
+Livro --> "1" Categoria : categoria
+
+%% Livro tem uma única editora
+Livro --> "1" Editora : editora
+
+%% Autorias (muitos-para-muitos)
+Autor "1..*" -- "1..*" Livro : autoria
+
+%% Empréstimo vincula cliente e livro (1..1)
+Emprestimo --> "1" Cliente : cliente
+Emprestimo --> "1" Livro : livro
+
+%% Notas de regras
+note for Emprestimo "status: ATIVO/ATRASADO/DEVOLVIDO\n dataDevolucao é opcional quando ATIVO/ATRASADO"
+note for Livro "isbn deve ser único\n titulo sem acento no identificador por compatibilidade Mermaid"

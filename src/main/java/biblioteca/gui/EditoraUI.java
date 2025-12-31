@@ -31,10 +31,12 @@ public class EditoraUI {
     void consultarEditoras() {
         mostrarTitulo("CONSULTAR EDITORAS");
         if (bibliotecaService.getEditoras().isEmpty()) {
-            System.out.println("Nenhuma editora cadastrada");
-        }
-        for (Editora editora : bibliotecaService.getEditoras()) {
-            System.out.println(editora.mostrar());
+            mostrarMenu("Nenhuma editora cadastrada");
+        } else {
+            System.out.println("ID - NOME - CNPJ - ENDEREÇO - TELEFONE - EMAIL");
+            for (Editora editora : bibliotecaService.getEditoras()) {
+                System.out.println(editora.mostrar());
+            }
         }
     }
 

@@ -42,7 +42,7 @@ public class Biblioteca {
     public boolean cadastrar(Autor novoAutor) {
         int id = autores.isEmpty() ? 0
                 : autores.stream()
-                        .mapToInt(Autor::getId).max().getAsInt() + 1;
+                .mapToInt(Autor::getId).max().getAsInt() + 1;
 
         novoAutor.setId(id);
         return autores.add(novoAutor);
@@ -51,9 +51,9 @@ public class Biblioteca {
     public boolean cadastrar(Editora editora) {
         int maiorIsbn = editoras.isEmpty() ? 0
                 : editoras.stream()
-                        .mapToInt(Editora::getId)
-                        .max()
-                        .getAsInt() + 1;
+                .mapToInt(Editora::getId)
+                .max()
+                .getAsInt() + 1;
 
         editora.setId(maiorIsbn);
         return editoras.add(editora);
@@ -62,7 +62,7 @@ public class Biblioteca {
     public boolean cadastrar(Emprestimo emprestimo) {
         int id = emprestimos.isEmpty() ? 0
                 : emprestimos.stream()
-                        .mapToInt(Emprestimo::getId).max().getAsInt() + 1;
+                .mapToInt(Emprestimo::getId).max().getAsInt() + 1;
 
         emprestimo.setId(id);
         return emprestimos.add(emprestimo);
@@ -98,6 +98,10 @@ public class Biblioteca {
                 .filter(cliente -> cliente.getId() == clienteId).findFirst();
     }
 
+    public Optional<Emprestimo> getEmprestimo(int emprestimoId) {
+        return emprestimos.stream().filter(emprestimo -> emprestimo.getId() == emprestimoId).findFirst();
+    }
+
     public boolean excluir(Autor autor) {
         return this.autores.remove(autor);
     }
@@ -112,6 +116,10 @@ public class Biblioteca {
 
     public boolean excluir(Cliente cliente) {
         return this.clientes.remove(cliente);
+    }
+
+    public boolean excluir(Emprestimo emprestimo) {
+        return emprestimos.remove(emprestimo);
     }
 
     public boolean atualizar(Autor autor) {
@@ -170,4 +178,16 @@ public class Biblioteca {
                 .orElse(false);
     }
 
+    public boolean atualizar(Emprestimo emprestimo) {
+        return emprestimos.stream()
+                .filter(e -> e.getId() == emprestimo.getId())
+                .findFirst()
+                .map(emprestimoEncontrado -> {
+                    emprestimoEncontrado.setLivro(emprestimo.getLivro());
+                    emprestimoEncontrado.setDataEmprestimo(emprestimo.getDataEmprestimo());
+                    emprestimoEncontrado.setDataPrevistaDevolucao(emprestimo.getDataPrevistaDevolucao());
+                    emprestimoEncontrado.setDevolvido(emprestimo.isDevolvido());
+                    return true;
+                }).orElse(false);
+    }
 }

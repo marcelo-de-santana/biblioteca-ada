@@ -12,10 +12,9 @@ public class Livro {
     private int anoPublicacao;
     private Categoria categoria;
     private Editora editora;
-    private Boolean emprestado;
     private Autor autor;
 
     public String mostrar() {
-        return isbn + " - " + titulo;
+        return isbn + " - " + titulo + " - " + autor.getNome() + " - " + editora.getNome() + " - " + anoPublicacao + " - " + categoria.getDescricao() + " - " + numeroDePaginas;
     }
 }

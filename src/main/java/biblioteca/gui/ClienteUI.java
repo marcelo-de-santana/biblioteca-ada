@@ -32,7 +32,7 @@ public class ClienteUI {
     private void consultarClientes() {
         mostrarTitulo("CONSULTAR CLIENTES");
         if (bibliotecaService.getClientes().isEmpty()) {
-            System.out.println("Nenhum cliente cadastrado");
+            mostrarMenu("Nenhum cliente cadastrado");
         } else {
             System.out.println("ID - NOME - CPF - EMAIL - TELEFONE");
             for (Cliente cliente : bibliotecaService.getClientes()) {

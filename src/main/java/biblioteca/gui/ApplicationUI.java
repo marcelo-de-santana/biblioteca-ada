@@ -13,34 +13,17 @@ public class ApplicationUI {
 
     public static void iniciarUi() {
         mostrarTitulo("SISTEMA DE BIBLIOTECA");
-        mostrarCatalogo();
         while (true) {
             try {
+                mostrarCatalogo(bibliotecaService);
                 menuConsultar();
-            } catch (Exception exception) {
-                System.out.println("Opção inválida" + exception.getCause());
+            } catch (RuntimeException runtimeException) {
+                System.out.println("Opção inválida" + runtimeException.getCause());
                 promptInput.nextLine();
             }
         }
     }
 
-    static void mostrarCatalogo() {
-        if (bibliotecaService.getCatalogo().isEmpty())
-            System.out.println("Biblioteca Vazia");
-        else {
-            mostrarTitulo("CATÁLOGO");
-            bibliotecaService.getCatalogo().forEach(livro -> System.out.println(livro.toString()));
-        }
-    }
-
-    static void cadastrarEmprestimo() {
-    }
-
-    static void cadastraEmprestimo() {
-    }
-
-    static void cadastrarLivro() {
-    }
 
     /*
      * Menu Consultar
@@ -49,14 +32,15 @@ public class ApplicationUI {
      */
     static void menuConsultar() {
         mostrarTitulo("CONSULTAR");
-        mostrarMenu("1 - AUTORES | 2 - CLIENTES | 3 - EDITORAS | 4 - LIVROS");
+        mostrarMenu("1 - AUTORES | 2 - CLIENTES | 3 - EDITORAS | 4 - LIVROS | 5 - EMPRÉSTIMOS");
         mensagemSelecioneUmaOpcao();
 
         switch (promptInput.nextLine()) {
-            case "1"-> new AutorUI(bibliotecaService, promptInput).iniciarUi();
-            case "2"-> new ClienteUI(bibliotecaService, promptInput).iniciarUi();
+            case "1" -> new AutorUI(bibliotecaService, promptInput).iniciarUi();
+            case "2" -> new ClienteUI(bibliotecaService, promptInput).iniciarUi();
             case "3" -> new EditoraUI(bibliotecaService, promptInput).iniciarUi();
-        //    case "4" -> new LivroUI(bibliotecaService, promptInput).iniciarUi();
+            //    case "4" -> new LivroUI(bibliotecaService, promptInput).iniciarUi();
+            case "5" -> new EmprestimoUI(bibliotecaService, promptInput).iniciarUi();
         }
     }
 

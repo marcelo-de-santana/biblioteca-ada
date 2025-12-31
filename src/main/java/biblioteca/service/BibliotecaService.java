@@ -4,46 +4,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import biblioteca.entity.Autor;
-import biblioteca.entity.Biblioteca;
-import biblioteca.entity.Cliente;
-import biblioteca.entity.Editora;
-import biblioteca.entity.Livro;
+import biblioteca.entity.*;
 
 public class BibliotecaService {
     private final Biblioteca biblioteca = Biblioteca.getInstancia();
-    private Scanner input;
+    private final Scanner input;
 
     public BibliotecaService(Scanner input) {
         this.input = new Scanner(System.in);
     }
 
-    public boolean cadastrar(Cliente cliente) {
-        return biblioteca.cadastrar(cliente);
-    }
-
-    public boolean cadastrar(Livro livro) {
-        System.out.println("Digite o título do livro:");
-        livro.setTitulo(input.nextLine());
-
-        System.out.println("Digite a quantidade de páginas:");
-        livro.setNumeroDePaginas(input.nextInt());
-
-        System.out.println("Digite o ano de publicação:");
-        livro.setAnoPublicacao(input.nextInt());
-
-        livro.setEmprestado(false);
-
-        System.out.println("Editoras");
-        biblioteca.getEditoras().forEach(editora -> editora.mostrarEditora());
-
-        System.out.println("A qual editora pertence o livro?");
-        input.nextInt();
-        // System.out.println(listarEditoras().toString());
-
-        return biblioteca.cadastrar(livro);
-
-    }
 
     public List<Livro> getLivros() {
         return biblioteca.getLivros();
@@ -61,6 +31,14 @@ public class BibliotecaService {
         return biblioteca.getEditoras();
     }
 
+    public List<Emprestimo> getEmprestimos() {
+        return biblioteca.getEmprestimos();
+    }
+
+    public boolean cadastrar(Cliente cliente) {
+        return biblioteca.cadastrar(cliente);
+    }
+
     public boolean cadastrar(Editora novaEditora) {
         return biblioteca.cadastrar(novaEditora);
     }
@@ -69,12 +47,20 @@ public class BibliotecaService {
         return biblioteca.cadastrar(autor);
     }
 
+    public boolean cadastrar(Emprestimo novoEmprestimo) {
+        return biblioteca.cadastrar(novoEmprestimo);
+    }
+
     public List<Livro> getCatalogo() {
         return biblioteca.getLivros();
     }
 
     public Optional<Autor> getAutor(int autorId) {
         return biblioteca.getAutor(autorId);
+    }
+
+    public Optional<Emprestimo> getEmprestimo(int emprestimoId) {
+        return biblioteca.getEmprestimo(emprestimoId);
     }
 
     public Optional<Editora> getEditora(int editoraId) {
@@ -105,6 +91,10 @@ public class BibliotecaService {
         return biblioteca.excluir(cliente);
     }
 
+    public boolean excluir(Emprestimo emprestimo) {
+        return biblioteca.excluir(emprestimo);
+    }
+
     public boolean atualizar(Autor autor) {
         return biblioteca.atualizar(autor);
     }
@@ -120,4 +110,9 @@ public class BibliotecaService {
     public boolean atualizar(Cliente cliente) {
         return biblioteca.atualizar(cliente);
     }
+
+    public boolean atualizar(Emprestimo emprestimo) {
+        return biblioteca.atualizar(emprestimo);
+    }
+
 }
