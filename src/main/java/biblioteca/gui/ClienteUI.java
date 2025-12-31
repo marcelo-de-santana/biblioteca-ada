@@ -1,6 +1,7 @@
 package biblioteca.gui;
 
 import static biblioteca.gui.ComponentUI.*;
+import static biblioteca.utils.FormatadorUtils.*;
 
 import java.util.Scanner;
 
@@ -19,25 +20,13 @@ public class ClienteUI {
     }
 
     public void iniciarUi() {
-        consultarClientes();
+        consultarClientes(bibliotecaService);
         mostrarMenuCrud();
 
         switch (promptInput.nextLine()) {
             case "1" -> cadastrarCliente();
             case "2" -> alterarCliente();
             case "3" -> excluirCliente();
-        }
-    }
-
-    private void consultarClientes() {
-        mostrarTitulo("CONSULTAR CLIENTES");
-        if (bibliotecaService.getClientes().isEmpty()) {
-            mostrarMenu("Nenhum cliente cadastrado");
-        } else {
-            System.out.println("ID - NOME - CPF - EMAIL - TELEFONE");
-            for (Cliente cliente : bibliotecaService.getClientes()) {
-                System.out.println(cliente.mostrar());
-            }
         }
     }
 
@@ -49,13 +38,13 @@ public class ClienteUI {
         novoCliente.setNome(promptInput.nextLine());
 
         System.out.println("CPF:");
-        novoCliente.setCpf(FormatadorUtils.formatarCpf(promptInput.nextLine()));
+        novoCliente.setCpf(formatarCpf(validarTamanhoCpf(promptInput.nextLine())));
 
         System.out.println("E-mail:");
         novoCliente.setEmail(promptInput.nextLine());
 
         System.out.println("Telefone(DDD 99999-9999):");
-        novoCliente.setTelefone(FormatadorUtils.formatarTelefone(promptInput.nextLine()));
+        novoCliente.setTelefone(formatarTelefone(validarTamanhoTelefone(promptInput.nextLine())));
 
         if (bibliotecaService.cadastrar((Cliente) novoCliente)) {
             System.out.println("Cliente cadastrado com sucesso!");
@@ -120,6 +109,8 @@ public class ClienteUI {
     }
 
     private void excluirCliente() {
+        consultarClientes(bibliotecaService);
+
         System.out.println("\nQual cliente deseja excluir(ID)?");
         var clienteId = promptInput.nextLine();
 
@@ -137,4 +128,33 @@ public class ClienteUI {
         }
     }
 
+    private String validarTamanhoCpf(String c) {
+        var tam = c.length();
+        var cpf = c;
+        while (tam != 11) {
+            if (tam<11){
+                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 11 dígitos. Tente novamente:");
+            } else {
+                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 11 dígitos. Tente novamente:");
+            }
+            cpf = promptInput.nextLine();
+            tam = cpf.length();
+        }
+        return cpf;
+    }
+
+    private String validarTamanhoTelefone(String t) {
+        var tam = t.length();
+        var telefone = t;
+        while (tam != 11) {
+            if (tam < 11){
+                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 11 dígitos. Tente novamente:");
+            } else {
+                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 11 dígitos. Tente novamente:");
+            }
+            telefone = promptInput.nextLine();
+            tam = telefone.length();
+        }
+        return telefone;
+    }
 }

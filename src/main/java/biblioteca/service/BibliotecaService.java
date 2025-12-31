@@ -2,18 +2,19 @@ package biblioteca.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
-import biblioteca.entity.*;
+import biblioteca.entity.Autor;
+import biblioteca.entity.Biblioteca;
+import biblioteca.entity.Cliente;
+import biblioteca.entity.Editora;
+import biblioteca.entity.Emprestimo;
+import biblioteca.entity.Livro;
 
 public class BibliotecaService {
     private final Biblioteca biblioteca = Biblioteca.getInstancia();
-    private final Scanner input;
 
-    public BibliotecaService(Scanner input) {
-        this.input = new Scanner(System.in);
+    public BibliotecaService() {
     }
-
 
     public List<Livro> getLivros() {
         return biblioteca.getLivros();
@@ -38,6 +39,8 @@ public class BibliotecaService {
     public boolean cadastrar(Cliente cliente) {
         return biblioteca.cadastrar(cliente);
     }
+
+    public boolean cadastrar(Livro livro) {return biblioteca.cadastrar(livro);}
 
     public boolean cadastrar(Editora novaEditora) {
         return biblioteca.cadastrar(novaEditora);

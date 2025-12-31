@@ -1,5 +1,6 @@
 package biblioteca.gui;
 
+import biblioteca.entity.Cliente;
 import biblioteca.service.BibliotecaService;
 
 public class ComponentUI {
@@ -55,6 +56,18 @@ public class ComponentUI {
             mostrarTitulo("CATÁLOGO");
             System.out.println("ISBN - TÍTULO - AUTOR - EDITORA - ANO - CATEGORIA - NÚMERO DE PÁGINAS");
             bibliotecaService.getCatalogo().forEach(livro -> System.out.println(livro.mostrar()));
+        }
+    }
+
+        public static void consultarClientes(BibliotecaService bibliotecaService) {
+        mostrarTitulo("CONSULTAR CLIENTES");
+        if (bibliotecaService.getClientes().isEmpty()) {
+            mostrarMenu("Nenhum cliente cadastrado");
+        } else {
+            System.out.println("ID - NOME - CPF - EMAIL - TELEFONE");
+            for (Cliente cliente : bibliotecaService.getClientes()) {
+                System.out.println(cliente.mostrar());
+            }
         }
     }
 }

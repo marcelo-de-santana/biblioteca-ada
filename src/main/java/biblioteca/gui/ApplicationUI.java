@@ -9,7 +9,7 @@ import biblioteca.service.BibliotecaService;
 
 public class ApplicationUI {
     private static final Scanner promptInput = new Scanner(System.in);
-    private static final BibliotecaService bibliotecaService = new BibliotecaService(promptInput);
+    private static final BibliotecaService bibliotecaService = new BibliotecaService();
 
     public static void iniciarUi() {
         mostrarTitulo("SISTEMA DE BIBLIOTECA");
@@ -23,7 +23,6 @@ public class ApplicationUI {
             }
         }
     }
-
 
     /*
      * Menu Consultar
@@ -39,7 +38,7 @@ public class ApplicationUI {
             case "1" -> new AutorUI(bibliotecaService, promptInput).iniciarUi();
             case "2" -> new ClienteUI(bibliotecaService, promptInput).iniciarUi();
             case "3" -> new EditoraUI(bibliotecaService, promptInput).iniciarUi();
-            //    case "4" -> new LivroUI(bibliotecaService, promptInput).iniciarUi();
+            case "4" -> new LivroUI(bibliotecaService, promptInput).iniciarUi();
             case "5" -> new EmprestimoUI(bibliotecaService, promptInput).iniciarUi();
         }
     }

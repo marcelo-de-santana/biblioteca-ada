@@ -13,6 +13,20 @@ public class FormatadorUtils {
                 cpf.substring(9, 11);
     }
 
+    public static String formatarCnpj(String cnpj){
+        cnpj = removerCaracteresCnpj(cnpj);
+        return cnpj.substring(0, 2) + "." +
+                cnpj.substring(2, 5) + "." +
+                cnpj.substring(5, 8) + "/" +
+                cnpj.substring(8, 12) + "-" +
+                cnpj.substring(12, 14);
+    }
+
+    private static String removerCaracteresCnpj(String cnpj) {
+        return cnpj.replace(".", "")
+                .replace("-", "");
+    }
+
     private static String removerCaracteresCpf(String cpf) {
         return cpf.replace(".", "")
                 .replace("-", "");

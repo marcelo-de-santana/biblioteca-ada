@@ -4,7 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import biblioteca.entity.*;
+import biblioteca.entity.Autor;
+import biblioteca.entity.Biblioteca;
+import biblioteca.entity.Categoria;
+import biblioteca.entity.Cliente;
+import biblioteca.entity.Editora;
+import biblioteca.entity.Emprestimo;
+import biblioteca.entity.Livro;
 
 public class CadastroUtils {
     private static final Biblioteca biblioteca = Biblioteca.getInstancia();
@@ -86,100 +92,102 @@ public class CadastroUtils {
 
     public static void cadastrarLivros() {
         biblioteca.setLivros(new ArrayList<>(List.of(
-                Livro.builder().isbn(0)
-                        .titulo("Memórias Póstumas de Brás Cubas")
-                        .autor(biblioteca.getAutores().get(0))
-                        .editora(biblioteca.getEditoras().get(0))
-                        .anoPublicacao(1881)
-                        .categoria(Categoria.ROMANCE)
-                        .build(),
-                Livro.builder()
-                        .isbn(1)
-                        .titulo("Dom Casmurro")
-                        .autor(biblioteca.getAutores().get(0))
-                        .editora(biblioteca.getEditoras().get(0))
-                        .anoPublicacao(1899)
-                        .categoria(Categoria.ROMANCE)
-                        .build(),
-                Livro.builder()
-                        .isbn(2)
-                        .titulo("Memórias Póstumas de Brás Cubas")
-                        .autor(biblioteca.getAutores().get(1))
-                        .editora(biblioteca.getEditoras().get(1)).anoPublicacao(1881)
-                        .categoria(Categoria.ROMANCE)
-                        .build(),
-                Livro.builder()
-                        .isbn(3)
-                        .titulo("O Guarani")
-                        .autor(biblioteca.getAutores().get(1))
-                        .editora(biblioteca.getEditoras().get(1))
-                        .anoPublicacao(1857)
-                        .categoria(Categoria.ROMANCE)
-                        .build(),
-                Livro.builder()
-                        .isbn(4)
-                        .titulo("A Hora da Estrela")
-                        .autor(biblioteca.getAutores().get(2))
-                        .editora(biblioteca.getEditoras().get(2))
-                        .anoPublicacao(1977)
-                        .categoria(Categoria.ROMANCE)
-                        .build(),
-                Livro.builder()
-                        .isbn(5)
-                        .titulo("Vidas Secas")
-                        .autor(biblioteca.getAutores().get(3))
-                        .editora(biblioteca.getEditoras().get(3))
-                        .anoPublicacao(1938)
-                        .categoria(Categoria.ROMANCE)
-                        .build(),
-                Livro.builder()
-                        .isbn(6)
-                        .titulo("Gabriela, Cravo e Canela")
-                        .autor(biblioteca.getAutores().get(4))
-                        .editora(biblioteca.getEditoras().get(4))
-                        .anoPublicacao(1958)
-                        .categoria(Categoria.ROMANCE)
-                        .build(),
-                Livro.builder()
-                        .isbn(7)
-                        .titulo("Sítio do Picapau Amarelo")
-                        .autor(biblioteca.getAutores().get(5))
-                        .editora(biblioteca.getEditoras().get(0))
-                        .anoPublicacao(1920)
-                        .categoria(Categoria.INFANTO_JUVENIL)
-                        .build(),
-                Livro.builder()
-                        .isbn(8)
-                        .titulo("Alguma Poesia")
-                        .autor(biblioteca.getAutores().get(6))
-                        .editora(biblioteca.getEditoras().get(1))
-                        .anoPublicacao(1930)
-                        .categoria(Categoria.ARTE)
-                        .build(),
-                Livro.builder()
-                        .isbn(9)
-                        .titulo("O Alquimista")
-                        .autor(biblioteca.getAutores().get(7))
-                        .editora(biblioteca.getEditoras().get(2))
-                        .anoPublicacao(1988)
-                        .categoria(Categoria.FICCAO)
-                        .build(),
-                Livro.builder()
-                        .isbn(10)
-                        .titulo("Os Maias")
-                        .autor(biblioteca.getAutores().get(8))
-                        .editora(biblioteca.getEditoras().get(3))
-                        .anoPublicacao(1878)
-                        .categoria(Categoria.ROMANCE)
-                        .build(),
-                Livro.builder()
-                        .isbn(11)
-                        .titulo("Mensagem")
-                        .autor(biblioteca.getAutores().get(9))
-                        .editora(biblioteca.getEditoras().get(4))
-                        .anoPublicacao(1934)
-                        .categoria(Categoria.ARTE)
-                        .build())));
+            Livro.builder().isbn(0)
+                .titulo("Memórias Póstumas de Brás Cubas")
+                .autor(biblioteca.getAutores().get(0))
+                .editora(biblioteca.getEditoras().get(0))
+                .anoPublicacao(1881)
+                .categoria(Categoria.ROMANCE)
+                .build(),
+            Livro.builder()
+                .isbn(1)
+                .titulo("Dom Casmurro")
+                .autor(biblioteca.getAutores().get(0))
+                .editora(biblioteca.getEditoras().get(0))
+                .anoPublicacao(1899)
+                .categoria(Categoria.ROMANCE)
+                .build(),
+            Livro.builder()
+                .isbn(2)
+                .titulo("Memórias Póstumas de Brás Cubas")
+                .autor(biblioteca.getAutores().get(1))
+                .editora(biblioteca.getEditoras().get(1))
+                .anoPublicacao(1881)
+                .categoria(Categoria.ROMANCE)
+                .build(),
+            Livro.builder()
+                .isbn(3)
+                .titulo("O Guarani")
+                .autor(biblioteca.getAutores().get(1))
+                .editora(biblioteca.getEditoras().get(1))
+                .anoPublicacao(1857)
+                .categoria(Categoria.AVENTURA)
+                .build(),
+            Livro.builder()
+                .isbn(4)
+                .titulo("A Hora da Estrela")
+                .autor(biblioteca.getAutores().get(2))
+                .editora(biblioteca.getEditoras().get(2))
+                .anoPublicacao(1977)
+                .categoria(Categoria.ROMANCE)
+                .build(),
+            Livro.builder()
+                .isbn(5)
+                .titulo("Vidas Secas")
+                .autor(biblioteca.getAutores().get(3))
+                .editora(biblioteca.getEditoras().get(3))
+                .anoPublicacao(1938)
+                .categoria(Categoria.ROMANCE)
+                .build(),
+            Livro.builder()
+                .isbn(6)
+                .titulo("Gabriela, Cravo e Canela")
+                .autor(biblioteca.getAutores().get(4))
+                .editora(biblioteca.getEditoras().get(4))
+                .anoPublicacao(1958)
+                .categoria(Categoria.ROMANCE)
+                .build(),
+            Livro.builder()
+                .isbn(7)
+                .titulo("Sítio do Picapau Amarelo")
+                .autor(biblioteca.getAutores().get(5))
+                .editora(biblioteca.getEditoras().get(0))
+                .anoPublicacao(1920)
+                .categoria(Categoria.INFANTO_JUVENIL)
+                .build(),
+            Livro.builder()
+                .isbn(8)
+                .titulo("Alguma Poesia")
+                .autor(biblioteca.getAutores().get(6))
+                .editora(biblioteca.getEditoras().get(1))
+                .anoPublicacao(1930)
+                .categoria(Categoria.ARTE)
+                .build(),
+            Livro.builder()
+                .isbn(9)
+                .titulo("O Alquimista")
+                .autor(biblioteca.getAutores().get(7))
+                .editora(biblioteca.getEditoras().get(2))
+                .anoPublicacao(1988)
+                .categoria(Categoria.FICCAO)
+                .build(),
+            Livro.builder()
+                .isbn(10)
+                .titulo("Os Maias")
+                .autor(biblioteca.getAutores().get(8))
+                .editora(biblioteca.getEditoras().get(3))
+                .anoPublicacao(1878)
+                .categoria(Categoria.ROMANCE)
+                .build(),
+            Livro.builder()
+                .isbn(11)
+                .titulo("Mensagem")
+                .autor(biblioteca.getAutores().get(9))
+                .editora(biblioteca.getEditoras().get(4))
+                .anoPublicacao(1934)
+                .categoria(Categoria.ARTE)
+                .build()
+        )));
     }
 
     public static void cadastrarEmprestimos() {
@@ -255,5 +263,4 @@ public class CadastroUtils {
                         .devolvido(false)
                         .build()
         )));
-    }
-}
+}}

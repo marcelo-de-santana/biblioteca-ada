@@ -28,6 +28,12 @@ public class Biblioteca {
     }
 
     public boolean cadastrar(Cliente novoCliente) {
+        int id = clientes.isEmpty() ? 0
+                : clientes.stream()
+                .mapToInt(Cliente::getId).max().getAsInt() + 1;
+
+        novoCliente.setId(id);
+
         var clienteJaCadastrado = clientes.stream()
                 .anyMatch(clienteCadastrado -> clienteCadastrado.getCpf()
                         .equals(novoCliente.getCpf()));
@@ -103,19 +109,56 @@ public class Biblioteca {
     }
 
     public boolean excluir(Autor autor) {
-        return this.autores.remove(autor);
+        var excluido = this.autores.remove(autor);
+
+        if (excluido) {
+            autores.forEach(a -> {
+                if (a.getId() > autor.getId()) {
+                    a.setId(a.getId() - 1);
+                }
+            });
+        }
+        return excluido;
+
     }
 
     public boolean excluir(Editora editora) {
-        return this.editoras.remove(editora);
+        var excluido = this.editoras.remove(editora);
+
+        if (excluido) {
+            autores.forEach(e -> {
+                if (e.getId() > editora.getId()) {
+                    e.setId(e.getId() - 1);
+                }
+            });
+        }
+        return excluido;
     }
 
     public boolean excluir(Livro livro) {
-        return this.livros.remove(livro);
+        var excluido = this.livros.remove(livro);
+
+        if (excluido) {
+            livros.forEach(l -> {
+                if (l.getIsbn() > livro.getIsbn()) {
+                    l.setIsbn(l.getIsbn() - 1);
+                }
+            });
+        }
+        return excluido;
     }
 
     public boolean excluir(Cliente cliente) {
-        return this.clientes.remove(cliente);
+        var excluido = this.clientes.remove(cliente);
+
+        if (excluido) {
+            clientes.forEach(c -> {
+                if (c.getId() > cliente.getId()) {
+                    c.setId(c.getId() - 1);
+                }
+            });
+        }
+        return excluido;
     }
 
     public boolean excluir(Emprestimo emprestimo) {
