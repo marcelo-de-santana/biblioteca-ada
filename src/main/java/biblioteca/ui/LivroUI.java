@@ -29,7 +29,9 @@ public class LivroUI {
                 case "1" -> cadastrarLivro();
                 case "2" -> alterarLivro();
                 case "3" -> excluirLivro();
-                case "0" -> { return; }
+                case "0" -> {
+                    return;
+                }
                 default -> System.out.println("Opção inválida");
             }
         }
@@ -205,7 +207,7 @@ public class LivroUI {
         }
 
         AutorUI.consultarAutores(bibliotecaService);
-        System.out.println("Selecione um autor (ID):");
+        System.out.println("\nDigite 0 para cadastrar ou Selecione um autor (ID):");
 
         while (true) {
             var entrada = promptInput.nextLine();
@@ -217,6 +219,12 @@ public class LivroUI {
 
             try {
                 var id = Integer.parseInt(entrada.trim());
+                if (id == 0) {
+                    AutorUI.cadastrarAutor(bibliotecaService, promptInput);
+                    return bibliotecaService.getAutores()
+                            .get(bibliotecaService.getAutores().size() - 1);
+                }
+
                 var autorOpt = bibliotecaService.getAutor(id);
                 if (autorOpt.isPresent()) {
                     return autorOpt.get();
