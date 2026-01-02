@@ -1,6 +1,5 @@
 package biblioteca.entity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +9,6 @@ import lombok.Data;
 @Data
 public class Biblioteca {
     private static Biblioteca INSTANCIA = new Biblioteca();
-
-    private final String nome = "Biblioteca Nacional";
-    private final LocalDate anoCriacao = LocalDate.of(2025, 01, 01);
 
     private List<Livro> livros = new ArrayList<Livro>();
     private List<Emprestimo> emprestimos = new ArrayList<>();
@@ -30,7 +26,7 @@ public class Biblioteca {
     public boolean cadastrar(Cliente novoCliente) {
         int id = clientes.isEmpty() ? 0
                 : clientes.stream()
-                .mapToInt(Cliente::getId).max().getAsInt() + 1;
+                        .mapToInt(Cliente::getId).max().getAsInt() + 1;
 
         novoCliente.setId(id);
 
@@ -48,7 +44,7 @@ public class Biblioteca {
     public boolean cadastrar(Autor novoAutor) {
         int id = autores.isEmpty() ? 0
                 : autores.stream()
-                .mapToInt(Autor::getId).max().getAsInt() + 1;
+                        .mapToInt(Autor::getId).max().getAsInt() + 1;
 
         novoAutor.setId(id);
         return autores.add(novoAutor);
@@ -57,9 +53,9 @@ public class Biblioteca {
     public boolean cadastrar(Editora editora) {
         int maiorIsbn = editoras.isEmpty() ? 0
                 : editoras.stream()
-                .mapToInt(Editora::getId)
-                .max()
-                .getAsInt() + 1;
+                        .mapToInt(Editora::getId)
+                        .max()
+                        .getAsInt() + 1;
 
         editora.setId(maiorIsbn);
         return editoras.add(editora);
@@ -68,7 +64,7 @@ public class Biblioteca {
     public boolean cadastrar(Emprestimo emprestimo) {
         int id = emprestimos.isEmpty() ? 0
                 : emprestimos.stream()
-                .mapToInt(Emprestimo::getId).max().getAsInt() + 1;
+                        .mapToInt(Emprestimo::getId).max().getAsInt() + 1;
 
         emprestimo.setId(id);
         return emprestimos.add(emprestimo);
@@ -106,6 +102,11 @@ public class Biblioteca {
 
     public Optional<Emprestimo> getEmprestimo(int emprestimoId) {
         return emprestimos.stream().filter(emprestimo -> emprestimo.getId() == emprestimoId).findFirst();
+    }
+
+    public boolean livroEstaDisponivel(Livro livro) {
+        return emprestimos.stream()
+                .noneMatch(emprestimo -> emprestimo.getLivro().equals(livro) && !emprestimo.isDevolvido());
     }
 
     public boolean excluir(Autor autor) {

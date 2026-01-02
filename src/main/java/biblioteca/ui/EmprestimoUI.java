@@ -1,14 +1,13 @@
-package biblioteca.gui;
+package biblioteca.ui;
 
-import biblioteca.entity.Emprestimo;
-import biblioteca.service.BibliotecaService;
+import static biblioteca.ui.ComponentUI.*;
+import static biblioteca.utils.FormatadorUtils.*;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import static biblioteca.gui.ComponentUI.*;
-import static biblioteca.utils.FormatadorUtils.formatarDataParaPTBR;
-import static biblioteca.utils.FormatadorUtils.transformarEmLocalDate;
+import biblioteca.entity.Emprestimo;
+import biblioteca.service.BibliotecaService;
 
 public class EmprestimoUI {
     private final BibliotecaService bibliotecaService;
@@ -20,13 +19,17 @@ public class EmprestimoUI {
     }
 
     public void iniciarUi() {
-        consultarEmprestimos();
-        mostrarMenuCrud();
+        while (true) {
+            consultarEmprestimos();
+            mostrarMenuCrud();
 
-        switch (promptInput.nextLine()) {
-            case "1" -> cadastrarEmprestimo();
-            case "2" -> alterarEmprestimo();
-            case "3" -> excluirEmprestimo();
+            switch (promptInput.nextLine()) {
+                case "1" -> cadastrarEmprestimo();
+                case "2" -> alterarEmprestimo();
+                case "3" -> excluirEmprestimo();
+                case "0" -> { return; }
+                default -> System.out.println("Opção inválida");
+            }
         }
     }
 
@@ -34,7 +37,7 @@ public class EmprestimoUI {
         mostrarTitulo("CADASTRANDO UM EMPRÉSTIMO");
         var novoEmprestimo = new Emprestimo();
 
-        mostrarCatalogo(bibliotecaService);
+        LivroUI.mostrarCatalogoDisponivel(bibliotecaService);
         System.out.println("Digite livro a ser emprestado (ISBN):");
 
         var livroId = promptInput.nextLine();
@@ -44,28 +47,39 @@ public class EmprestimoUI {
             return;
         }
 
-        var livro = bibliotecaService.getLivro(Integer.parseInt(livroId));
+        var livroOpt = bibliotecaService.getLivro(Integer.parseInt(livroId));
 
-        if (livro.isEmpty()) {
+        if (livroOpt.isEmpty()) {
             System.out.println("Livro não localizado");
             return;
         }
 
-        livro.ifPresent(novoEmprestimo::setLivro);
+        var livro = livroOpt.get();
+
+        if (!bibliotecaService.livroEstaDisponivel(livro)) {
+            System.out.println("Livro já está emprestado.");
+            return;
+        }
+
+        novoEmprestimo.setLivro(livro);
 
         var dataAtual = LocalDate.now();
 
-        System.out.println("Data de empréstimo [" + formatarDataParaPTBR(dataAtual) + "] (ENTER para manter ou digite nova data):");
+        System.out.println("Data de empréstimo [" + formatarDataParaPTBR(dataAtual)
+                + "] (ENTER para manter ou digite nova data):");
         var dataEmprestimo = promptInput.nextLine();
 
         novoEmprestimo.setDataEmprestimo(!dataEmprestimo.isBlank()
-                ? transformarEmLocalDate(dataEmprestimo) : dataAtual);
+                ? transformarEmLocalDate(dataEmprestimo)
+                : dataAtual);
 
-        System.out.println("Data prevista de devolução [" + formatarDataParaPTBR(dataAtual.plusDays(10)) + "] (ENTER para manter ou digite nova data):");
+        System.out.println("Data prevista de devolução [" + formatarDataParaPTBR(dataAtual.plusDays(10))
+                + "] (ENTER para manter ou digite nova data):");
         var dataPrevistaDevolucao = promptInput.nextLine();
 
         novoEmprestimo.setDataPrevistaDevolucao(!dataPrevistaDevolucao.isBlank()
-                ? transformarEmLocalDate(dataPrevistaDevolucao) : dataAtual.plusDays(10));
+                ? transformarEmLocalDate(dataPrevistaDevolucao)
+                : dataAtual.plusDays(10));
 
         System.out.println("Devolvido (S/N):");
         var devolvido = promptInput.nextLine().toUpperCase();
@@ -81,11 +95,11 @@ public class EmprestimoUI {
     }
 
     private void consultarEmprestimos() {
-        mostrarTitulo("CONSULTAR EMPRÉSTIMOS");
-        if (bibliotecaService.getAutores().isEmpty()) {
+        mostrarTitulo("EMPRÉSTIMOS");
+        if (bibliotecaService.getEmprestimos().isEmpty()) {
             System.out.println("Nenhum empréstimo cadastrado");
         } else {
-            System.out.println("ID - LIVRO - DATA EMPRÉSTIMO - DATA PREVISTA DEVOLUÇÃO - EMPRESTADO");
+            System.out.println("ID - LIVRO - DATA EMPRÉSTIMO - DATA PREVISTA DEVOLUÇÃO - DEVOLVIDO");
             for (Emprestimo emprestimo : bibliotecaService.getEmprestimos()) {
                 System.out.println(emprestimo.mostrar());
             }
@@ -108,7 +122,7 @@ public class EmprestimoUI {
             return;
         }
 
-        mostrarCatalogo(bibliotecaService);
+        LivroUI.mostrarCatalogo(bibliotecaService);
         System.out.println("Livro atual: " + emprestimo.get().getLivro().getTitulo());
         System.out.println("Digite o novo livro (ou ENTER para manter):");
         var novoLivroId = promptInput.nextLine();

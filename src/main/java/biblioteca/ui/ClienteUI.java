@@ -1,6 +1,6 @@
-package biblioteca.gui;
+package biblioteca.ui;
 
-import static biblioteca.gui.ComponentUI.*;
+import static biblioteca.ui.ComponentUI.*;
 import static biblioteca.utils.FormatadorUtils.*;
 
 import java.util.Scanner;
@@ -20,13 +20,29 @@ public class ClienteUI {
     }
 
     public void iniciarUi() {
-        consultarClientes(bibliotecaService);
-        mostrarMenuCrud();
+        while (true) {
+            consultarClientes(bibliotecaService);
+            mostrarMenuCrud();
 
-        switch (promptInput.nextLine()) {
-            case "1" -> cadastrarCliente();
-            case "2" -> alterarCliente();
-            case "3" -> excluirCliente();
+            switch (promptInput.nextLine()) {
+                case "1" -> cadastrarCliente();
+                case "2" -> alterarCliente();
+                case "3" -> excluirCliente();
+                case "0" -> { return; }
+                default -> System.out.println("Opção inválida");
+            }
+        }
+    }
+
+    public static void consultarClientes(BibliotecaService bibliotecaService) {
+        mostrarTitulo("CLIENTES");
+        if (bibliotecaService.getClientes().isEmpty()) {
+            mostrarMenu("Nenhum cliente cadastrado");
+        } else {
+            System.out.println("ID - NOME - CPF - EMAIL - TELEFONE");
+            for (Cliente cliente : bibliotecaService.getClientes()) {
+                System.out.println(cliente.mostrar());
+            }
         }
     }
 
@@ -82,7 +98,7 @@ public class ClienteUI {
         var novoCpf = promptInput.nextLine();
 
         if (!novoCpf.isBlank()) {
-            cliente.get().setCpf(FormatadorUtils.formatarCpf(novoCpf));
+            cliente.get().setCpf(FormatadorUtils.formatarCpf(validarTamanhoCpf(novoCpf)));
         }
 
         System.out.println("E-mail atual: " + cliente.get().getEmail());
@@ -98,7 +114,7 @@ public class ClienteUI {
         var novoTelefone = promptInput.nextLine();
 
         if (!novoTelefone.isBlank()) {
-            cliente.get().setTelefone(FormatadorUtils.formatarTelefone(novoTelefone));
+            cliente.get().setTelefone(formatarTelefone(validarTamanhoTelefone(novoTelefone)));
         }
 
         if (bibliotecaService.atualizar(cliente.get())) {
@@ -128,32 +144,22 @@ public class ClienteUI {
         }
     }
 
-    private String validarTamanhoCpf(String c) {
-        var tam = c.length();
-        var cpf = c;
-        while (tam != 11) {
-            if (tam<11){
-                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 11 dígitos. Tente novamente:");
-            } else {
-                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 11 dígitos. Tente novamente:");
-            }
+    private String validarTamanhoCpf(String cpf) {
+        while (cpf.length() != 11) {
+            String motivo = cpf.length() < 11 ? "menor" : "maior";
+            System.out.println("Quantidade de dígitos " + motivo
+                    + " que o necessário. Digite exatamente 11 dígitos. Tente novamente:");
             cpf = promptInput.nextLine();
-            tam = cpf.length();
         }
         return cpf;
     }
 
-    private String validarTamanhoTelefone(String t) {
-        var tam = t.length();
-        var telefone = t;
-        while (tam != 11) {
-            if (tam < 11){
-                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 11 dígitos. Tente novamente:");
-            } else {
-                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 11 dígitos. Tente novamente:");
-            }
+    private String validarTamanhoTelefone(String telefone) {
+        while (telefone.length() != 11) {
+            String motivo = telefone.length() < 11 ? "menor" : "maior";
+            System.out.println("Quantidade de dígitos " + motivo
+                    + " que o necessário. Digite exatamente 11 dígitos. Tente novamente:");
             telefone = promptInput.nextLine();
-            tam = telefone.length();
         }
         return telefone;
     }

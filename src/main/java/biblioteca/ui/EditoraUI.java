@@ -1,6 +1,6 @@
-package biblioteca.gui;
+package biblioteca.ui;
 
-import static biblioteca.gui.ComponentUI.*;
+import static biblioteca.ui.ComponentUI.*;
 
 import java.util.Scanner;
 
@@ -20,18 +20,22 @@ public class EditoraUI {
     }
 
     public void iniciarUi() {
-        consultarEditoras();
-        mostrarMenuCrud();
+        while (true) {
+            consultarEditoras(bibliotecaService);
+            mostrarMenuCrud();
 
-        switch (promptInput.nextLine()) {
-            case "1" -> cadastrarEditora();
-            case "2" -> alterarEditora();
-            case "3" -> excluirEditora();
+            switch (promptInput.nextLine()) {
+                case "1" -> cadastrarEditora(bibliotecaService, promptInput);
+                case "2" -> alterarEditora();
+                case "3" -> excluirEditora();
+                case "0" -> { return; }
+                default -> System.out.println("Opção inválida");
+            }
         }
     }
 
-    void consultarEditoras() {
-        mostrarTitulo("CONSULTAR EDITORAS");
+    public static void consultarEditoras(BibliotecaService bibliotecaService) {
+        mostrarTitulo("EDITORAS");
         if (bibliotecaService.getEditoras().isEmpty()) {
             mostrarMenu("Nenhuma editora cadastrada");
         } else {
@@ -42,7 +46,7 @@ public class EditoraUI {
         }
     }
 
-    private void cadastrarEditora() {
+    public static void cadastrarEditora(BibliotecaService bibliotecaService, Scanner promptInput) {
         var novaEditora = new Editora();
 
         mostrarTitulo("CADASTRANDO UMA EDITORA");
@@ -51,14 +55,13 @@ public class EditoraUI {
         novaEditora.setNome(promptInput.nextLine());
 
         System.out.println("CNPJ:");
-        var cnpj = validarTamanhoCnpj(promptInput.nextLine());
-        novaEditora.setCnpj(FormatadorUtils.formatarCnpj(cnpj));
+        novaEditora.setCnpj(FormatadorUtils.formatarCnpj(validarTamanhoCnpj(promptInput.nextLine(), promptInput)));
 
         System.out.println("Endereço:");
         novaEditora.setEndereco(promptInput.nextLine());
 
         System.out.println("Telefone:");
-        var tel = validarTamanhoTelefone(promptInput.nextLine());
+        var tel = validarTamanhoTelefone(promptInput.nextLine(), promptInput);
         novaEditora.setTelefone(FormatadorUtils.formatarTelefone(tel));
 
         System.out.println("E-mail");
@@ -99,7 +102,7 @@ public class EditoraUI {
         var novoCnpj = promptInput.nextLine();
 
         if (!novoCnpj.isBlank()) {
-            editora.get().setCnpj(novoCnpj);
+            editora.get().setCnpj(FormatadorUtils.formatarCnpj(validarTamanhoCnpj(novoCnpj, promptInput)));
         }
 
         System.out.println("Endereço atual: " + editora.get().getEndereco());
@@ -151,33 +154,22 @@ public class EditoraUI {
         }
     }
 
-    private String validarTamanhoCnpj(String s) {
-        var tam = s.length();
-        var cnpj = s;
-        while (tam != 14) {
-            if (tam<14){
-                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 14 dígitos. Tente novamente:");
-            } else {
-                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 14 dígitos. Tente novamente:");
-            }
+    private static String validarTamanhoCnpj(String cnpj, Scanner promptInput) {
+        while (cnpj.length() != 14) {
+            String motivo = cnpj.length() < 14 ? "menor" : "maior";
+            System.out.println("Quantidade de dígitos " + motivo
+                    + " que o necessário. Digite exatamente 14 dígitos. Tente novamente:");
             cnpj = promptInput.nextLine();
-            tam = cnpj.length();
         }
         return cnpj;
     }
 
-
-    private String validarTamanhoTelefone(String t) {
-        var tam = t.length();
-        var telefone = t;
-        while (tam != 11) {
-            if (tam < 11){
-                System.out.println("Quantidade de dígitos menor que o necessário. Digite até 11 dígitos. Tente novamente:");
-            } else {
-                System.out.println("Quantidade de dígitos maior que o necessário. Digite até 11 dígitos. Tente novamente:");
-            }
+    private static String validarTamanhoTelefone(String telefone, Scanner promptInput) {
+        while (telefone.length() != 11) {
+            String motivo = telefone.length() < 11 ? "menor" : "maior";
+            System.out.println("Quantidade de dígitos " + motivo
+                    + " que o necessário. Digite exatamente 11 dígitos. Tente novamente:");
             telefone = promptInput.nextLine();
-            tam = telefone.length();
         }
         return telefone;
     }

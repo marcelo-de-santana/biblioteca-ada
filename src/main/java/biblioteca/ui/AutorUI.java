@@ -1,6 +1,6 @@
-package biblioteca.gui;
+package biblioteca.ui;
 
-import static biblioteca.gui.ComponentUI.*;
+import static biblioteca.ui.ComponentUI.*;
 
 import java.util.Scanner;
 
@@ -17,18 +17,22 @@ public class AutorUI {
     }
 
     public void iniciarUi() {
-        consultarAutores();
-        mostrarMenuCrud();
+        while (true) {
+            consultarAutores(bibliotecaService);
+            mostrarMenuCrud();
 
-        switch (promptInput.nextLine()) {
-            case "1" -> cadastrarAutor();
-            case "2" -> alterarAutor();
-            case "3" -> excluirAutor();
+            switch (promptInput.nextLine()) {
+                case "1" -> cadastrarAutor(bibliotecaService, promptInput);
+                case "2" -> alterarAutor();
+                case "3" -> excluirAutor();
+                case "0" -> { return; }
+                default -> System.out.println("Opção inválida");
+            }
         }
     }
 
-    private void consultarAutores() {
-        mostrarTitulo("CONSULTAR AUTORES");
+    public static void consultarAutores(BibliotecaService bibliotecaService) {
+        mostrarTitulo("AUTORES");
         if (bibliotecaService.getAutores().isEmpty()) {
             System.out.println("Nenhum autor cadastrado");
         } else {
@@ -39,7 +43,7 @@ public class AutorUI {
         }
     }
 
-    private void cadastrarAutor() {
+    public static void cadastrarAutor(BibliotecaService bibliotecaService, Scanner promptInput) {
         mostrarTitulo("CADASTRANDO UM AUTOR");
         var novoAutor = new Autor();
 
@@ -57,7 +61,7 @@ public class AutorUI {
     }
 
     private void alterarAutor() {
-        consultarAutores();
+        consultarAutores(bibliotecaService);
         System.out.println("\nQual autor deseja alterar(ID)?");
         var autorId = promptInput.nextLine();
 

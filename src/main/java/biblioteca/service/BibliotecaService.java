@@ -36,6 +36,10 @@ public class BibliotecaService {
         return biblioteca.getEmprestimos();
     }
 
+    public boolean livroEstaDisponivel(Livro livro) {
+        return biblioteca.livroEstaDisponivel(livro);
+    }
+
     public boolean cadastrar(Cliente cliente) {
         return biblioteca.cadastrar(cliente);
     }
@@ -52,10 +56,6 @@ public class BibliotecaService {
 
     public boolean cadastrar(Emprestimo novoEmprestimo) {
         return biblioteca.cadastrar(novoEmprestimo);
-    }
-
-    public List<Livro> getCatalogo() {
-        return biblioteca.getLivros();
     }
 
     public Optional<Autor> getAutor(int autorId) {

@@ -1,6 +1,6 @@
 package biblioteca;
 
-import biblioteca.gui.ApplicationUI;
+import biblioteca.ui.ApplicationUI;
 import biblioteca.utils.CadastroUtils;
 
 public class Main {

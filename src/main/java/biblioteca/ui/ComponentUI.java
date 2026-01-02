@@ -1,7 +1,4 @@
-package biblioteca.gui;
-
-import biblioteca.entity.Cliente;
-import biblioteca.service.BibliotecaService;
+package biblioteca.ui;
 
 public class ComponentUI {
 
@@ -41,33 +38,14 @@ public class ComponentUI {
         int margemEsquerda = espacoLivre / 2;
         int margemDireita = espacoLivre - margemEsquerda;
 
-        // Garante que haja pelo menos um espaço em branco ao redor do texto se a base for traços
+        // Garante que haja pelo menos um espaço em branco ao redor do texto se a base
+        // for traços
         if (base.contains("-")) {
-            return (base.substring(0, margemEsquerda - 1) + " " + texto + " " + base.substring(0, margemDireita - 1)).toUpperCase();
+            return (base.substring(0, margemEsquerda - 1) + " " + texto + " " + base.substring(0, margemDireita - 1))
+                    .toUpperCase();
         } else {
             return (base.substring(0, margemEsquerda) + texto + base.substring(0, margemDireita)).toUpperCase();
         }
     }
 
-    public static void mostrarCatalogo(BibliotecaService bibliotecaService) {
-        if (bibliotecaService.getCatalogo().isEmpty())
-            System.out.println("Biblioteca Vazia");
-        else {
-            mostrarTitulo("CATÁLOGO");
-            System.out.println("ISBN - TÍTULO - AUTOR - EDITORA - ANO - CATEGORIA - NÚMERO DE PÁGINAS");
-            bibliotecaService.getCatalogo().forEach(livro -> System.out.println(livro.mostrar()));
-        }
-    }
-
-        public static void consultarClientes(BibliotecaService bibliotecaService) {
-        mostrarTitulo("CONSULTAR CLIENTES");
-        if (bibliotecaService.getClientes().isEmpty()) {
-            mostrarMenu("Nenhum cliente cadastrado");
-        } else {
-            System.out.println("ID - NOME - CPF - EMAIL - TELEFONE");
-            for (Cliente cliente : bibliotecaService.getClientes()) {
-                System.out.println(cliente.mostrar());
-            }
-        }
-    }
 }

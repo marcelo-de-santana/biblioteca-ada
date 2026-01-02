@@ -32,23 +32,18 @@ public enum Categoria {
 
     public static Categoria porId(int id) {
         for (var c : values()) {
-            if (c.id == id) return c;
-        }
-        return null;
-    }
-
-    public static Categoria porTexto(String entrada) {
-        if (entrada == null) return null;
-        var texto = entrada.trim().toLowerCase();
-
-        for (var c : values()) {
-            var desc = c.descricao.toLowerCase();
-            var nome = c.name().toLowerCase().replace('_', ' ');
-
-            if (desc.equals(texto) || nome.equals(texto)) {
+            if (c.id == id)
                 return c;
-            }
         }
         return null;
     }
+
+    public static boolean existsById(int id) {
+        return porId(id) != null;
+    }
+
+    public String mostrar() {
+        return getId() + " - " + getDescricao();
+    }
+
 }

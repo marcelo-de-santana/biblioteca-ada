@@ -1,10 +1,9 @@
-package biblioteca.gui;
+package biblioteca.ui;
 
-import static biblioteca.gui.ComponentUI.*;
+import static biblioteca.ui.ComponentUI.*;
 
 import java.util.Scanner;
 
-import biblioteca.entity.Livro;
 import biblioteca.service.BibliotecaService;
 
 public class ApplicationUI {
@@ -12,11 +11,10 @@ public class ApplicationUI {
     private static final BibliotecaService bibliotecaService = new BibliotecaService();
 
     public static void iniciarUi() {
-        mostrarTitulo("SISTEMA DE BIBLIOTECA");
+        mostrarMenu("SISTEMA DE BIBLIOTECA");
         while (true) {
             try {
-                mostrarCatalogo(bibliotecaService);
-                menuConsultar();
+                menuPrincipal();
             } catch (RuntimeException runtimeException) {
                 System.out.println("Opção inválida" + runtimeException.getCause());
                 promptInput.nextLine();
@@ -29,7 +27,7 @@ public class ApplicationUI {
      * Responsável por chamar os tipos de consulta (autores, clientes, editoras,
      * livros)
      */
-    static void menuConsultar() {
+    static void menuPrincipal() {
         mostrarTitulo("CONSULTAR");
         mostrarMenu("1 - AUTORES | 2 - CLIENTES | 3 - EDITORAS | 4 - LIVROS | 5 - EMPRÉSTIMOS");
         mensagemSelecioneUmaOpcao();
@@ -40,16 +38,6 @@ public class ApplicationUI {
             case "3" -> new EditoraUI(bibliotecaService, promptInput).iniciarUi();
             case "4" -> new LivroUI(bibliotecaService, promptInput).iniciarUi();
             case "5" -> new EmprestimoUI(bibliotecaService, promptInput).iniciarUi();
-        }
-    }
-
-    static void listarLivros() {
-        mostrarTitulo("CONSULTAR LIVROS");
-        if (bibliotecaService.getLivros().isEmpty()) {
-            System.out.println("Nenhum livro cadastrado");
-        }
-        for (Livro livro : bibliotecaService.getLivros()) {
-            System.out.println(livro.mostrar());
         }
     }
 }

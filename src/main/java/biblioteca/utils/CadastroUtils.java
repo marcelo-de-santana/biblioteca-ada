@@ -21,6 +21,7 @@ public class CadastroUtils {
         cadastrarClientes();
         cadastrarLivros();
         cadastrarEmprestimos();
+//        associarEmprestimosAosLivros();
     }
 
     public static void cadastrarEditoras() {
@@ -92,101 +93,113 @@ public class CadastroUtils {
 
     public static void cadastrarLivros() {
         biblioteca.setLivros(new ArrayList<>(List.of(
-            Livro.builder().isbn(0)
-                .titulo("Memórias Póstumas de Brás Cubas")
-                .autor(biblioteca.getAutores().get(0))
-                .editora(biblioteca.getEditoras().get(0))
-                .anoPublicacao(1881)
-                .categoria(Categoria.ROMANCE)
-                .build(),
-            Livro.builder()
-                .isbn(1)
-                .titulo("Dom Casmurro")
-                .autor(biblioteca.getAutores().get(0))
-                .editora(biblioteca.getEditoras().get(0))
-                .anoPublicacao(1899)
-                .categoria(Categoria.ROMANCE)
-                .build(),
-            Livro.builder()
-                .isbn(2)
-                .titulo("Memórias Póstumas de Brás Cubas")
-                .autor(biblioteca.getAutores().get(1))
-                .editora(biblioteca.getEditoras().get(1))
-                .anoPublicacao(1881)
-                .categoria(Categoria.ROMANCE)
-                .build(),
-            Livro.builder()
-                .isbn(3)
-                .titulo("O Guarani")
-                .autor(biblioteca.getAutores().get(1))
-                .editora(biblioteca.getEditoras().get(1))
-                .anoPublicacao(1857)
-                .categoria(Categoria.AVENTURA)
-                .build(),
-            Livro.builder()
-                .isbn(4)
-                .titulo("A Hora da Estrela")
-                .autor(biblioteca.getAutores().get(2))
-                .editora(biblioteca.getEditoras().get(2))
-                .anoPublicacao(1977)
-                .categoria(Categoria.ROMANCE)
-                .build(),
-            Livro.builder()
-                .isbn(5)
-                .titulo("Vidas Secas")
-                .autor(biblioteca.getAutores().get(3))
-                .editora(biblioteca.getEditoras().get(3))
-                .anoPublicacao(1938)
-                .categoria(Categoria.ROMANCE)
-                .build(),
-            Livro.builder()
-                .isbn(6)
-                .titulo("Gabriela, Cravo e Canela")
-                .autor(biblioteca.getAutores().get(4))
-                .editora(biblioteca.getEditoras().get(4))
-                .anoPublicacao(1958)
-                .categoria(Categoria.ROMANCE)
-                .build(),
-            Livro.builder()
-                .isbn(7)
-                .titulo("Sítio do Picapau Amarelo")
-                .autor(biblioteca.getAutores().get(5))
-                .editora(biblioteca.getEditoras().get(0))
-                .anoPublicacao(1920)
-                .categoria(Categoria.INFANTO_JUVENIL)
-                .build(),
-            Livro.builder()
-                .isbn(8)
-                .titulo("Alguma Poesia")
-                .autor(biblioteca.getAutores().get(6))
-                .editora(biblioteca.getEditoras().get(1))
-                .anoPublicacao(1930)
-                .categoria(Categoria.ARTE)
-                .build(),
-            Livro.builder()
-                .isbn(9)
-                .titulo("O Alquimista")
-                .autor(biblioteca.getAutores().get(7))
-                .editora(biblioteca.getEditoras().get(2))
-                .anoPublicacao(1988)
-                .categoria(Categoria.FICCAO)
-                .build(),
-            Livro.builder()
-                .isbn(10)
-                .titulo("Os Maias")
-                .autor(biblioteca.getAutores().get(8))
-                .editora(biblioteca.getEditoras().get(3))
-                .anoPublicacao(1878)
-                .categoria(Categoria.ROMANCE)
-                .build(),
-            Livro.builder()
-                .isbn(11)
-                .titulo("Mensagem")
-                .autor(biblioteca.getAutores().get(9))
-                .editora(biblioteca.getEditoras().get(4))
-                .anoPublicacao(1934)
-                .categoria(Categoria.ARTE)
-                .build()
+                Livro.builder().isbn(0)
+                        .titulo("Memórias Póstumas de Brás Cubas")
+                        .autor(biblioteca.getAutores().get(0))
+                        .editora(biblioteca.getEditoras().get(0))
+                        .anoPublicacao(1881)
+                        .categoria(Categoria.ROMANCE)
+                        .numeroDePaginas(200)
+                        .build(),
+                Livro.builder()
+                        .isbn(1)
+                        .titulo("Dom Casmurro")
+                        .autor(biblioteca.getAutores().get(0))
+                        .editora(biblioteca.getEditoras().get(0))
+                        .anoPublicacao(1899)
+                        .categoria(Categoria.ROMANCE)
+                        .numeroDePaginas(464)
+                        .build(),
+                Livro.builder()
+                        .isbn(2)
+                        .titulo("Memórias Póstumas de Brás Cubas")
+                        .autor(biblioteca.getAutores().get(1))
+                        .editora(biblioteca.getEditoras().get(1))
+                        .anoPublicacao(1881)
+                        .categoria(Categoria.ROMANCE)
+                        .numeroDePaginas(304)
+                        .build(),
+                Livro.builder()
+                        .isbn(3)
+                        .titulo("O Guarani")
+                        .autor(biblioteca.getAutores().get(1))
+                        .editora(biblioteca.getEditoras().get(1))
+                        .anoPublicacao(1857)
+                        .categoria(Categoria.AVENTURA)
+                        .numeroDePaginas(560)
+                        .build(),
+                Livro.builder()
+                        .isbn(4)
+                        .titulo("A Hora da Estrela")
+                        .autor(biblioteca.getAutores().get(2))
+                        .editora(biblioteca.getEditoras().get(2))
+                        .anoPublicacao(1977)
+                        .categoria(Categoria.ROMANCE)
+                        .numeroDePaginas(88)
+                        .build(),
+                Livro.builder()
+                        .isbn(5)
+                        .titulo("Vidas Secas")
+                        .autor(biblioteca.getAutores().get(3))
+                        .editora(biblioteca.getEditoras().get(3))
+                        .anoPublicacao(1938)
+                        .categoria(Categoria.ROMANCE)
+                        .numeroDePaginas(128)
+                        .build(),
+                Livro.builder()
+                        .isbn(6)
+                        .titulo("Gabriela, Cravo e Canela")
+                        .autor(biblioteca.getAutores().get(4))
+                        .editora(biblioteca.getEditoras().get(4))
+                        .anoPublicacao(1958)
+                        .categoria(Categoria.ROMANCE)
+                        .numeroDePaginas(424)
+                        .build(),
+                Livro.builder()
+                        .isbn(7)
+                        .titulo("Sítio do Picapau Amarelo")
+                        .autor(biblioteca.getAutores().get(5))
+                        .editora(biblioteca.getEditoras().get(0))
+                        .anoPublicacao(1920)
+                        .categoria(Categoria.INFANTO_JUVENIL)
+                        .numeroDePaginas(360)
+                        .build(),
+                Livro.builder()
+                        .isbn(8)
+                        .titulo("Alguma Poesia")
+                        .autor(biblioteca.getAutores().get(6))
+                        .editora(biblioteca.getEditoras().get(1))
+                        .anoPublicacao(1930)
+                        .categoria(Categoria.ARTE)
+                        .numeroDePaginas(120)
+                        .build(),
+                Livro.builder()
+                        .isbn(9)
+                        .titulo("O Alquimista")
+                        .autor(biblioteca.getAutores().get(7))
+                        .editora(biblioteca.getEditoras().get(2))
+                        .anoPublicacao(1988)
+                        .categoria(Categoria.FICCAO)
+                        .numeroDePaginas(176)
+                        .build(),
+                Livro.builder()
+                        .isbn(10)
+                        .titulo("Os Maias")
+                        .autor(biblioteca.getAutores().get(8))
+                        .editora(biblioteca.getEditoras().get(3))
+                        .anoPublicacao(1878)
+                        .categoria(Categoria.ROMANCE)
+                        .numeroDePaginas(720)
+                        .build(),
+                Livro.builder()
+                        .isbn(11)
+                        .titulo("Mensagem")
+                        .autor(biblioteca.getAutores().get(9))
+                        .editora(biblioteca.getEditoras().get(4))
+                        .anoPublicacao(1934)
+                        .categoria(Categoria.ARTE)
+                        .numeroDePaginas(104)
+                        .build()
         )));
     }
 
@@ -197,70 +210,82 @@ public class CadastroUtils {
                         .livro(biblioteca.getLivros().get(0))
                         .dataEmprestimo(LocalDate.now().minusDays(10))
                         .dataPrevistaDevolucao(LocalDate.now().plusDays(5))
-                        .devolvido(true)
+                        .devolvido(false)
                         .build(),
                 Emprestimo.builder()
                         .id(2)
                         .livro(biblioteca.getLivros().get(1))
                         .dataEmprestimo(LocalDate.now().minusDays(5))
                         .dataPrevistaDevolucao(LocalDate.now().plusDays(10))
-                        .devolvido(true)
+                        .devolvido(false)
                         .build(),
                 Emprestimo.builder()
                         .id(3)
                         .livro(biblioteca.getLivros().get(2))
                         .dataEmprestimo(LocalDate.now().minusDays(20))
                         .dataPrevistaDevolucao(LocalDate.now().minusDays(5)) // Atrasado
-                        .devolvido(true)
+                        .devolvido(false)
                         .build(),
                 Emprestimo.builder()
                         .id(4)
                         .livro(biblioteca.getLivros().get(3))
                         .dataEmprestimo(LocalDate.now().minusDays(2))
                         .dataPrevistaDevolucao(LocalDate.now().plusDays(12))
-                        .devolvido(true)
+                        .devolvido(false)
                         .build(),
                 Emprestimo.builder()
                         .id(5)
                         .livro(biblioteca.getLivros().get(4))
                         .dataEmprestimo(LocalDate.now().minusDays(15))
                         .dataPrevistaDevolucao(LocalDate.now())
-                        .devolvido(true)
+                        .devolvido(false)
                         .build(),
                 Emprestimo.builder()
                         .id(6)
                         .livro(biblioteca.getLivros().get(5))
                         .dataEmprestimo(LocalDate.now().minusDays(30))
                         .dataPrevistaDevolucao(LocalDate.now().minusDays(15)) // Atrasado e devolvido
-                        .devolvido(false)
+                        .devolvido(true)
                         .build(),
                 Emprestimo.builder()
                         .id(7)
                         .livro(biblioteca.getLivros().get(6))
                         .dataEmprestimo(LocalDate.now().minusDays(3))
                         .dataPrevistaDevolucao(LocalDate.now().plusDays(11))
-                        .devolvido(true)
+                        .devolvido(false)
                         .build(),
                 Emprestimo.builder()
                         .id(8)
                         .livro(biblioteca.getLivros().get(7))
                         .dataEmprestimo(LocalDate.now().minusDays(8))
                         .dataPrevistaDevolucao(LocalDate.now().plusDays(7))
-                        .devolvido(true)
+                        .devolvido(false)
                         .build(),
                 Emprestimo.builder()
                         .id(9)
                         .livro(biblioteca.getLivros().get(8))
                         .dataEmprestimo(LocalDate.now().minusDays(1))
                         .dataPrevistaDevolucao(LocalDate.now().plusDays(14))
-                        .devolvido(true)
+                        .devolvido(false)
                         .build(),
                 Emprestimo.builder()
                         .id(10)
                         .livro(biblioteca.getLivros().get(9))
                         .dataEmprestimo(LocalDate.now().minusDays(12))
                         .dataPrevistaDevolucao(LocalDate.now().plusDays(2))
-                        .devolvido(false)
+                        .devolvido(true)
                         .build()
         )));
-}}
+    }
+
+//    public static void associarEmprestimosAosLivros() {
+//        for (Livro livro : biblioteca.getLivros()) {
+//            for (Emprestimo emprestimo : biblioteca.getEmprestimos()) {
+//                if (emprestimo.getLivro().getIsbn() == livro.getIsbn()) {
+//                    livro.setEmprestimo(emprestimo);
+//                }
+//            }
+//        }
+//    }
+}
+
