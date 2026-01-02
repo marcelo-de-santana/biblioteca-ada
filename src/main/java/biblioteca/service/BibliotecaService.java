@@ -8,15 +8,27 @@ import biblioteca.entity.Cliente;
 import biblioteca.entity.Editora;
 import biblioteca.entity.Emprestimo;
 import biblioteca.entity.Livro;
+import biblioteca.repository.AutorRepository;
+import biblioteca.repository.ClienteRepository;
+import biblioteca.repository.EditoraRepository;
+import biblioteca.repository.EmprestimoRepository;
+import biblioteca.repository.LivroRepository;
 
 public class BibliotecaService {
+    private static final BibliotecaService INSTANCIA = new BibliotecaService(
+            new AutorService(new AutorRepository()),
+            new LivroService(new LivroRepository()),
+            new ClienteService(new ClienteRepository()),
+            new EditoraService(new EditoraRepository()),
+            new EmprestimoService(new EmprestimoRepository()));
+
     private final AutorService autorService;
     private final LivroService livroService;
     private final ClienteService clienteService;
     private final EditoraService editoraService;
     private final EmprestimoService emprestimoService;
 
-    public BibliotecaService(AutorService autorService,
+    private BibliotecaService(AutorService autorService,
                              LivroService livroService,
                              ClienteService clienteService,
                              EditoraService editoraService,
@@ -26,6 +38,10 @@ public class BibliotecaService {
         this.clienteService = clienteService;
         this.editoraService = editoraService;
         this.emprestimoService = emprestimoService;
+    }
+
+    public static BibliotecaService getInstancia() {
+        return INSTANCIA;
     }
 
     public List<Livro> getLivros() {

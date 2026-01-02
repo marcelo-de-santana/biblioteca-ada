@@ -1,69 +1,83 @@
 classDiagram
-%% Direção opcional
-%% direction LR
-
-%% Herança
-    Pessoa <|-- Autor
-    Pessoa <|-- Cliente
-
-%% Classes principais
-    class Biblioteca {
-        +UUID id
-        +String nome
-        +int anoCriacao
+    %% Camada de UI e Entrada
+    class Main {
+        +main(String[] args)
     }
 
-    class Livro {
-        +UUID isbn
-        +String titulo
-        +int numeroDePaginas
-        +int anoPublicacao
-        +Categoria categoria
-        +Editora editora
+    class ApplicationUI {
+        -BibliotecaService bibliotecaService
+        +iniciarUi()
     }
 
-    class Pessoa {
-        +UUID id
-        +String nome
+    %% Camada de Serviço (Facade Singleton)
+    class BibliotecaService {
+        -BibliotecaService INSTANCIA$
+        -AutorService autorService
+        -LivroService livroService
+        -ClienteService clienteService
+        -EditoraService editoraService
+        -EmprestimoService emprestimoService
+        -BibliotecaService()
+        +getInstancia()$ BibliotecaService
+        +cadastrar(Object) boolean
+        +excluir(Object) boolean
+        +atualizar(Object) boolean
+        +getLivros() List~Livro~
+        +getAutores() List~Autor~
+        +getClientes() List~Cliente~
     }
 
+    %% Serviços Específicos
+    class AutorService {
+        -AutorRepository repository
+        +salvar(Autor) Autor
+        +buscarPorId(int) Optional
+        +excluir(int) boolean
+    }
+
+    class ClienteService {
+        -ClienteRepository repository
+        +salvar(Cliente) Cliente
+        +buscarPorId(int) Optional
+    }
+
+    class LivroService {
+        -LivroRepository repository
+        +salvar(Livro) Livro
+        +buscarPorIsbn(int) Optional
+    }
+
+    %% Repositórios
+    class AutorRepository {
+        -List~Autor~ autores
+        -int proximoId
+        +salvar(Autor) Autor
+        +buscarPorId(int) Optional
+        +listarTodos() List~Autor~
+    }
+
+    class ClienteRepository {
+        -List~Cliente~ clientes
+        +salvar(Cliente) Cliente
+    }
+
+    %% Entidades
     class Autor {
+        +int id
+        +String nome
         +String nacionalidade
     }
 
     class Cliente {
+        +int id
+        +String nome
         +String email
-        +Integer telefone
-        +Integer cpf
+        +String telefone
+        +String cpf
     }
 
-    class Emprestimo {
-        +UUID id
-        +LocalDate dataEmprestimo
-        +LocalDate dataPrevistaDevolucao
-        +LocalDate? dataDevolucao
-        +boolean emprestado
-    }
-
-%% Enum de categorias
-    class Categoria {
-        <<enumeration>>
-        FICCAO
-        NAO_FICCAO
-        TECNOLOGIA
-        HISTORIA
-        CIENCIAS
-        ARTE
-        INFANTO_JUVENIL
-        BIOGRAFIA
-        ROMANCE
-        FANTASIA
-        MISTERIO
-    }
-
-%% Editora (Publisher)
     class Editora {
-        +UUID id
+        +int id
         +String nome
         +String cnpj
         +String endereco
@@ -71,26 +85,51 @@ classDiagram
         +String email
     }
 
-%% Relacionamentos
-%% Biblioteca agrega coleções de entidades
-Biblioteca o-- "0..*" Livro : livros
-Biblioteca o-- "0..*" Autor : autores
-Biblioteca o-- "0..*" Cliente : clientes
-Biblioteca o-- "0..*" Editora : editoras
+    class Livro {
+        +int isbn
+        +String titulo
+        +int numeroDePaginas
+        +int anoPublicacao
+        +Categoria categoria
+        +Editora editora
+        +Autor autor
+    }
 
-%% Livro tem uma única categoria (enum)
-Livro --> "1" Categoria : categoria
+    class Emprestimo {
+        +int id
+        +Livro livro
+        +LocalDate dataEmprestimo
+        +LocalDate dataPrevistaDevolucao
+        +boolean devolvido
+    }
 
-%% Livro tem uma única editora
-Livro --> "1" Editora : editora
+    class Categoria {
+        <<enumeration>>
+        FICCAO
+        ROMANCE
+        TECNOLOGIA
+        ARTE
+        INFANTO_JUVENIL
+    }
 
-%% Autorias (muitos-para-muitos)
-Autor "1..*" -- "1..*" Livro : autoria
+    %% Relacionamentos
+    Main --> BibliotecaService : acessa
+    ApplicationUI --> BibliotecaService : usa
+    
+    BibliotecaService *-- AutorService
+    BibliotecaService *-- ClienteService
+    BibliotecaService *-- LivroService
+    BibliotecaService *-- EditoraService
+    BibliotecaService *-- EmprestimoService
 
-%% Empréstimo vincula cliente e livro (1..1)
-Emprestimo --> "1" Cliente : cliente
-Emprestimo --> "1" Livro : livro
+    AutorService --> AutorRepository
+    ClienteService --> ClienteRepository
+    LivroService --> LivroRepository
 
-%% Notas de regras
-note for Emprestimo "status: ATIVO/ATRASADO/DEVOLVIDO\n dataDevolucao é opcional quando ATIVO/ATRASADO"
-note for Livro "isbn deve ser único\n titulo sem acento no identificador por compatibilidade Mermaid"
+    AutorRepository o-- Autor
+    ClienteRepository o-- Cliente
+
+    Livro --> Autor
+    Livro --> Editora
+    Livro --> Categoria
+    Emprestimo --> Livro
