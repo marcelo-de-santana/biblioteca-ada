@@ -1,0 +1,58 @@
+graph TD
+    %% Nó Principal
+    Main[Main Class]
+
+    %% Camada de Apresentação
+    subgraph Presentation [Camada de Apresentação]
+        UI[ApplicationUI]
+        Utils[CadastroUtils]
+    end
+
+    %% Camada de Fachada (Facade)
+    subgraph FacadeLayer [Fachada]
+        BibService[BibliotecaService]
+    end
+
+    %% Camada de Domínio / Singleton Legado
+    subgraph DomainLayer [Camada de Domínio & Singleton]
+        BibSingleton[Biblioteca (Singleton)]
+        
+        subgraph Services [Services Específicos]
+            AS[AutorService]
+            LS[LivroService]
+            CS[ClienteService]
+            ES[EditoraService]
+            EmpS[EmprestimoService]
+        end
+    end
+
+    %% Camada de Persistência
+    subgraph Persistence [Camada de Repositório]
+        AR[AutorRepository]
+        LR[LivroRepository]
+        CR[ClienteRepository]
+        ER[EditoraRepository]
+        EmpR[EmprestimoRepository]
+    end
+
+    %% Relacionamentos
+    Main -->|Cria| BibService
+    Main -->|Cria & Injeta| UI
+    Main -->|Cria & Injeta| Utils
+    
+    UI -->|Usa| BibService
+    Utils -->|Usa| BibService
+    
+    BibService -->|Acessa| BibSingleton
+    
+    BibSingleton *--|Compõe| AS
+    BibSingleton *--|Compõe| LS
+    BibSingleton *--|Compõe| CS
+    BibSingleton *--|Compõe| ES
+    BibSingleton *--|Compõe| EmpS
+    
+    AS -->|Usa| AR
+    LS -->|Usa| LR
+    CS -->|Usa| CR
+    ES -->|Usa| ER
+    EmpS -->|Usa| EmpR

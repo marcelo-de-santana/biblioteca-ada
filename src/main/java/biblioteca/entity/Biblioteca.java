@@ -1,20 +1,29 @@
 package biblioteca.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+import biblioteca.repository.AutorRepository;
+import biblioteca.repository.ClienteRepository;
+import biblioteca.repository.EditoraRepository;
+import biblioteca.repository.EmprestimoRepository;
+import biblioteca.repository.LivroRepository;
+import biblioteca.service.AutorService;
+import biblioteca.service.ClienteService;
+import biblioteca.service.EditoraService;
+import biblioteca.service.EmprestimoService;
+import biblioteca.service.LivroService;
 import lombok.Data;
 
 @Data
 public class Biblioteca {
     private static Biblioteca INSTANCIA = new Biblioteca();
-
-    private List<Livro> livros = new ArrayList<Livro>();
-    private List<Emprestimo> emprestimos = new ArrayList<>();
-    private List<Editora> editoras = new ArrayList<>();
-    private List<Cliente> clientes = new ArrayList<Cliente>();
-    private List<Autor> autores = new ArrayList<>();
+    
+    // Injeção de Dependência dos Serviços
+    private AutorService autorService = new AutorService(new AutorRepository());
+    private LivroService livroService = new LivroService(new LivroRepository());
+    private ClienteService clienteService = new ClienteService(new ClienteRepository());
+    private EditoraService editoraService = new EditoraService(new EditoraRepository());
+    private EmprestimoService emprestimoService = new EmprestimoService(new EmprestimoRepository());
 
     private Biblioteca() {
     }
@@ -24,214 +33,96 @@ public class Biblioteca {
     }
 
     public boolean cadastrar(Cliente novoCliente) {
-        int id = clientes.isEmpty() ? 0
-                : clientes.stream()
-                        .mapToInt(Cliente::getId).max().getAsInt() + 1;
-
-        novoCliente.setId(id);
-
-        var clienteJaCadastrado = clientes.stream()
-                .anyMatch(clienteCadastrado -> clienteCadastrado.getCpf()
-                        .equals(novoCliente.getCpf()));
-
-        if (clienteJaCadastrado) {
-            System.out.println("Cliente já cadastrado");
+        try {
+            return clienteService.salvar(novoCliente) != null;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             return false;
-        } else
-            return clientes.add(novoCliente);
+        }
     }
 
     public boolean cadastrar(Autor novoAutor) {
-        int id = autores.isEmpty() ? 0
-                : autores.stream()
-                        .mapToInt(Autor::getId).max().getAsInt() + 1;
-
-        novoAutor.setId(id);
-        return autores.add(novoAutor);
+        return autorService.salvar(novoAutor) != null;
     }
 
     public boolean cadastrar(Editora editora) {
-        int maiorIsbn = editoras.isEmpty() ? 0
-                : editoras.stream()
-                        .mapToInt(Editora::getId)
-                        .max()
-                        .getAsInt() + 1;
-
-        editora.setId(maiorIsbn);
-        return editoras.add(editora);
+        return editoraService.salvar(editora) != null;
     }
 
     public boolean cadastrar(Emprestimo emprestimo) {
-        int id = emprestimos.isEmpty() ? 0
-                : emprestimos.stream()
-                        .mapToInt(Emprestimo::getId).max().getAsInt() + 1;
-
-        emprestimo.setId(id);
-        return emprestimos.add(emprestimo);
+        return emprestimoService.salvar(emprestimo) != null;
     }
 
     public boolean cadastrar(Livro livro) {
-        int maiorIsbn = livros.stream()
-                .mapToInt(Livro::getIsbn)
-                .max()
-                .orElse(0);
-
-        livro.setIsbn(maiorIsbn == 0 ? maiorIsbn : maiorIsbn + 1);
-        return livros.add(livro);
+        return livroService.salvar(livro) != null;
     }
 
     public Optional<Autor> getAutor(int autorId) {
-        return this.autores.stream()
-                .filter(autor -> autor.getId() == autorId).findFirst();
+        return autorService.buscarPorId(autorId);
     }
 
     public Optional<Editora> getEditora(int editoraId) {
-        return this.editoras.stream()
-                .filter(editora -> editora.getId() == editoraId).findFirst();
+        return editoraService.buscarPorId(editoraId);
     }
 
     public Optional<Livro> getLivro(int livroId) {
-        return this.livros.stream()
-                .filter(livro -> livro.getIsbn() == livroId).findFirst();
+        return livroService.buscarPorIsbn(livroId);
     }
 
     public Optional<Cliente> getCliente(int clienteId) {
-        return this.clientes.stream()
-                .filter(cliente -> cliente.getId() == clienteId).findFirst();
+        return clienteService.buscarPorId(clienteId);
     }
 
     public Optional<Emprestimo> getEmprestimo(int emprestimoId) {
-        return emprestimos.stream().filter(emprestimo -> emprestimo.getId() == emprestimoId).findFirst();
+        return emprestimoService.buscarPorId(emprestimoId);
     }
 
     public boolean livroEstaDisponivel(Livro livro) {
-        return emprestimos.stream()
-                .noneMatch(emprestimo -> emprestimo.getLivro().equals(livro) && !emprestimo.isDevolvido());
+        return emprestimoService.livroEstaDisponivel(livro);
     }
 
     public boolean excluir(Autor autor) {
-        var excluido = this.autores.remove(autor);
-
-        if (excluido) {
-            autores.forEach(a -> {
-                if (a.getId() > autor.getId()) {
-                    a.setId(a.getId() - 1);
-                }
-            });
-        }
-        return excluido;
-
+        return autorService.excluir(autor.getId());
     }
 
     public boolean excluir(Editora editora) {
-        var excluido = this.editoras.remove(editora);
-
-        if (excluido) {
-            autores.forEach(e -> {
-                if (e.getId() > editora.getId()) {
-                    e.setId(e.getId() - 1);
-                }
-            });
-        }
-        return excluido;
+        return editoraService.excluir(editora.getId());
     }
 
     public boolean excluir(Livro livro) {
-        var excluido = this.livros.remove(livro);
-
-        if (excluido) {
-            livros.forEach(l -> {
-                if (l.getIsbn() > livro.getIsbn()) {
-                    l.setIsbn(l.getIsbn() - 1);
-                }
-            });
-        }
-        return excluido;
+        return livroService.excluir(livro.getIsbn());
     }
 
     public boolean excluir(Cliente cliente) {
-        var excluido = this.clientes.remove(cliente);
-
-        if (excluido) {
-            clientes.forEach(c -> {
-                if (c.getId() > cliente.getId()) {
-                    c.setId(c.getId() - 1);
-                }
-            });
-        }
-        return excluido;
+        return clienteService.excluir(cliente.getId());
     }
 
     public boolean excluir(Emprestimo emprestimo) {
-        return emprestimos.remove(emprestimo);
+        return emprestimoService.excluir(emprestimo.getId());
     }
 
     public boolean atualizar(Autor autor) {
-        return this.autores.stream()
-                .filter(a -> a.getId() == autor.getId())
-                .findFirst()
-                .map(autorEncontrado -> {
-                    autorEncontrado.setNome(autor.getNome());
-                    autorEncontrado.setNacionalidade(autor.getNacionalidade());
-                    return true;
-                })
-                .orElse(false);
+        return autorService.salvar(autor) != null;
     }
 
     public boolean atualizar(Editora editora) {
-        return this.editoras.stream()
-                .filter(e -> e.getId() == editora.getId())
-                .findFirst()
-                .map(editoraEncontrada -> {
-                    editoraEncontrada.setNome(editora.getNome());
-                    editoraEncontrada.setCnpj(editora.getCnpj());
-                    editoraEncontrada.setEndereco(editora.getEndereco());
-                    editoraEncontrada.setTelefone(editora.getTelefone());
-                    editoraEncontrada.setEmail(editora.getEmail());
-                    return true;
-                })
-                .orElse(false);
+        return editoraService.salvar(editora) != null;
     }
 
     public boolean atualizar(Livro livro) {
-        return this.livros.stream()
-                .filter(l -> l.getIsbn() == livro.getIsbn())
-                .findFirst()
-                .map(livroEncontrado -> {
-                    livroEncontrado.setTitulo(livro.getTitulo());
-                    livroEncontrado.setAutor(livro.getAutor());
-                    livroEncontrado.setEditora(livro.getEditora());
-                    livroEncontrado.setAnoPublicacao(livro.getAnoPublicacao());
-                    livroEncontrado.setNumeroDePaginas(livro.getNumeroDePaginas());
-                    return true;
-                })
-                .orElse(false);
+        return livroService.salvar(livro) != null;
     }
 
     public boolean atualizar(Cliente cliente) {
-        return this.clientes.stream()
-                .filter(c -> c.getId() == cliente.getId())
-                .findFirst()
-                .map(clienteEncontrado -> {
-                    clienteEncontrado.setNome(cliente.getNome());
-                    clienteEncontrado.setEmail(cliente.getEmail());
-                    clienteEncontrado.setTelefone(cliente.getTelefone());
-                    clienteEncontrado.setCpf(cliente.getCpf());
-                    return true;
-                })
-                .orElse(false);
+        try {
+            return clienteService.salvar(cliente) != null;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public boolean atualizar(Emprestimo emprestimo) {
-        return emprestimos.stream()
-                .filter(e -> e.getId() == emprestimo.getId())
-                .findFirst()
-                .map(emprestimoEncontrado -> {
-                    emprestimoEncontrado.setLivro(emprestimo.getLivro());
-                    emprestimoEncontrado.setDataEmprestimo(emprestimo.getDataEmprestimo());
-                    emprestimoEncontrado.setDataPrevistaDevolucao(emprestimo.getDataPrevistaDevolucao());
-                    emprestimoEncontrado.setDevolvido(emprestimo.isDevolvido());
-                    return true;
-                }).orElse(false);
+        return emprestimoService.salvar(emprestimo) != null;
     }
 }

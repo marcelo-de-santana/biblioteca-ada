@@ -4,118 +4,142 @@ import java.util.List;
 import java.util.Optional;
 
 import biblioteca.entity.Autor;
-import biblioteca.entity.Biblioteca;
 import biblioteca.entity.Cliente;
 import biblioteca.entity.Editora;
 import biblioteca.entity.Emprestimo;
 import biblioteca.entity.Livro;
 
 public class BibliotecaService {
-    private final Biblioteca biblioteca = Biblioteca.getInstancia();
+    private final AutorService autorService;
+    private final LivroService livroService;
+    private final ClienteService clienteService;
+    private final EditoraService editoraService;
+    private final EmprestimoService emprestimoService;
 
-    public BibliotecaService() {
+    public BibliotecaService(AutorService autorService,
+                             LivroService livroService,
+                             ClienteService clienteService,
+                             EditoraService editoraService,
+                             EmprestimoService emprestimoService) {
+        this.autorService = autorService;
+        this.livroService = livroService;
+        this.clienteService = clienteService;
+        this.editoraService = editoraService;
+        this.emprestimoService = emprestimoService;
     }
 
     public List<Livro> getLivros() {
-        return biblioteca.getLivros();
+        return livroService.listarTodos();
     }
 
     public List<Autor> getAutores() {
-        return biblioteca.getAutores();
+        return autorService.listarTodos();
     }
 
     public List<Cliente> getClientes() {
-        return biblioteca.getClientes();
+        return clienteService.listarTodos();
     }
 
     public List<Editora> getEditoras() {
-        return biblioteca.getEditoras();
+        return editoraService.listarTodos();
     }
 
     public List<Emprestimo> getEmprestimos() {
-        return biblioteca.getEmprestimos();
+        return emprestimoService.listarTodos();
     }
 
     public boolean livroEstaDisponivel(Livro livro) {
-        return biblioteca.livroEstaDisponivel(livro);
+        return emprestimoService.livroEstaDisponivel(livro);
     }
 
     public boolean cadastrar(Cliente cliente) {
-        return biblioteca.cadastrar(cliente);
+        try {
+            return clienteService.salvar(cliente) != null;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
-    public boolean cadastrar(Livro livro) {return biblioteca.cadastrar(livro);}
+    public boolean cadastrar(Livro livro) {
+        return livroService.salvar(livro) != null;
+    }
 
     public boolean cadastrar(Editora novaEditora) {
-        return biblioteca.cadastrar(novaEditora);
+        return editoraService.salvar(novaEditora) != null;
     }
 
     public boolean cadastrar(Autor autor) {
-        return biblioteca.cadastrar(autor);
+        return autorService.salvar(autor) != null;
     }
 
     public boolean cadastrar(Emprestimo novoEmprestimo) {
-        return biblioteca.cadastrar(novoEmprestimo);
+        return emprestimoService.salvar(novoEmprestimo) != null;
     }
 
     public Optional<Autor> getAutor(int autorId) {
-        return biblioteca.getAutor(autorId);
+        return autorService.buscarPorId(autorId);
     }
 
     public Optional<Emprestimo> getEmprestimo(int emprestimoId) {
-        return biblioteca.getEmprestimo(emprestimoId);
+        return emprestimoService.buscarPorId(emprestimoId);
     }
 
     public Optional<Editora> getEditora(int editoraId) {
-        return biblioteca.getEditora(editoraId);
+        return editoraService.buscarPorId(editoraId);
     }
 
     public Optional<Livro> getLivro(int livroId) {
-        return biblioteca.getLivro(livroId);
+        return livroService.buscarPorIsbn(livroId);
     }
 
     public Optional<Cliente> getCliente(int clienteId) {
-        return biblioteca.getCliente(clienteId);
+        return clienteService.buscarPorId(clienteId);
     }
 
     public boolean excluir(Autor autor) {
-        return biblioteca.excluir(autor);
+        return autorService.excluir(autor.getId());
     }
 
     public boolean excluir(Editora editora) {
-        return biblioteca.excluir(editora);
+        return editoraService.excluir(editora.getId());
     }
 
     public boolean excluir(Livro livro) {
-        return biblioteca.excluir(livro);
+        return livroService.excluir(livro.getIsbn());
     }
 
     public boolean excluir(Cliente cliente) {
-        return biblioteca.excluir(cliente);
+        return clienteService.excluir(cliente.getId());
     }
 
     public boolean excluir(Emprestimo emprestimo) {
-        return biblioteca.excluir(emprestimo);
+        return emprestimoService.excluir(emprestimo.getId());
     }
 
     public boolean atualizar(Autor autor) {
-        return biblioteca.atualizar(autor);
+        return autorService.salvar(autor) != null;
     }
 
     public boolean atualizar(Editora editora) {
-        return biblioteca.atualizar(editora);
+        return editoraService.salvar(editora) != null;
     }
 
     public boolean atualizar(Livro livro) {
-        return biblioteca.atualizar(livro);
+        return livroService.salvar(livro) != null;
     }
 
     public boolean atualizar(Cliente cliente) {
-        return biblioteca.atualizar(cliente);
+        try {
+            return clienteService.salvar(cliente) != null;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public boolean atualizar(Emprestimo emprestimo) {
-        return biblioteca.atualizar(emprestimo);
+        return emprestimoService.salvar(emprestimo) != null;
     }
 
 }

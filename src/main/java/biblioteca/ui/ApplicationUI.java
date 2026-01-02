@@ -7,10 +7,15 @@ import java.util.Scanner;
 import biblioteca.service.BibliotecaService;
 
 public class ApplicationUI {
-    private static final Scanner promptInput = new Scanner(System.in);
-    private static final BibliotecaService bibliotecaService = new BibliotecaService();
+    private final Scanner promptInput;
+    private final BibliotecaService bibliotecaService;
 
-    public static void iniciarUi() {
+    public ApplicationUI(BibliotecaService bibliotecaService) {
+        this.bibliotecaService = bibliotecaService;
+        this.promptInput = new Scanner(System.in);
+    }
+
+    public void iniciarUi() {
         mostrarMenu("SISTEMA DE BIBLIOTECA");
         while (true) {
             try {
@@ -27,7 +32,7 @@ public class ApplicationUI {
      * Responsável por chamar os tipos de consulta (autores, clientes, editoras,
      * livros)
      */
-    static void menuPrincipal() {
+    void menuPrincipal() {
         mostrarTitulo("CONSULTAR");
         mostrarMenu("1 - AUTORES | 2 - CLIENTES | 3 - EDITORAS | 4 - LIVROS | 5 - EMPRÉSTIMOS");
         mensagemSelecioneUmaOpcao();
